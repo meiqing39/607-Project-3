@@ -1,0 +1,79 @@
+---
+title: "Code-Analysis-P3"
+format: html
+editor: visual
+---
+
+## Approach
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+Loading the raw data from Github
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(readr)
+library(ggplot2)
+
+get_url <- "https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"
+jobs_posting <- read_csv(get_url)
+jobs_posting
+#colnames(jobs_posting)
+#head(10)
+
+```
+
+**Examine Data structure and initial inspection**
+
+```{r}
+glimpse(load_url)
+```
+
+```{r}
+summary(load_url)
+```
+
+```{r}
+dim(load_url)
+```
+
+# **Data quality issues**
+
+Several variables contain placeholder values that represent missing data rather than valid observations. For example, `Rating`, `Founded`, and `Age` include values of `-1`, while variables such as `Competitors`, `seniority_by_title`, and `Degree` use strings such as `"-1"` or `"na"` to indicate unavailable information. These values must be recoded as missing before further analysis.
+
+## **Summary of the initial inspection**
+
+The dataset contains 742 job postings and 42 variables. These variables include job and company descriptors, salary information, and binary indicators for technical skills such as Python, SQL, AWS, and Tableau. Initial inspection using `glimpse()` and `summary()` showed that the dataset contains both raw text variables and derived variables that are more suitable for analysis.
+
+## **Skill demand**
+
+The binary skill columns provide a practical proxy for skill demand in job postings. Since these variables are coded as 0 and 1, their means can be interpreted as the proportion of postings that require each skill. Preliminary results suggest that Python, Excel, and SQL are among the most frequently requested skills in the dataset.
+
+## **Outliers and unusual values**
+
+Exploratory summaries also suggest the presence of extreme values. For instance, company age ranges up to 277 years, and average salary ranges from 15.5 to 254 thousand dollars. While some of these values may be valid, they require further inspection through visualizations such as boxplots and histograms.
+
+## **Re-coding placeholder values as missing** 
+
+```{r}
+jobs_posting_clean <- jobs_posting |>
+  mutate(
+    Rating = na_if(Rating, -1),
+    Founded = na_if(Founded, -1),
+    Age = na_if(Age, -1),
+    Competitors = na_if(Competitors, "-1"),
+    seniority_by_title = na_if(seniority_by_title, "na"),
+    Degree = na_if(Degree, "na")
+  )
+jobs_posting_clean
+#colSums(is.na(jobs_posting_clean))
+```
+
+## **Checking missing Values**
+
+```{r}
+colSums(is.na(jobs_posting_clean))
+```
