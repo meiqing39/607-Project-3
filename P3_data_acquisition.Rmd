@@ -1,0 +1,325 @@
+---
+title: "Project 3 Collaboration Data Acquisition"
+author: "Mei Qi Ng"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: true
+    smooth_scroll: true
+    code_folding: show
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Data Sources
+
+(1) [*Kaggle Data Science Job Data set (Primary)*](https://www.kaggle.com/datasets/nikhilbhathi/data-scientist-salary-us-glassdoor) *: [data_cleaned csv](https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv)* (on Github repository)
+
+    **Why this?**
+
+    Large scale job posting dataset (job titles, salaries, skill flags (Python, SQL, AWS, Tableau etc.) and job descriptions - great structured columns ready to be analyzed, salary ranges/average - good for exploring skill-salary association, Job description for texting mining soft skills, Many job posting with variety, technical skills listed can be used for statistical relationship analysis
+
+(2) BuiltIn Job Postings (Supplement Data Source): SoFi, TempusAI, Grow Therapy, Braze, PRC..etc
+
+(3) Supplement Skill Reference Articles (Qualitative reference sources),
+
+    a) NYIT Online – \*Data Science Skills\* 
+
+    <https://online.nyit.edu/blog/data-science-skills>
+
+    provides overview of core technical and soft skills expected of data science professionals (programming, statistics, communication, and domain knowledge)
+
+    b) Pragmatic Institute – \*Must‑Have Data Science Skills for 2023\* 
+
+    <https://www.pragmaticinstitute.com/resources/articles/data/must-have-data-science-skills-for-2023/>
+
+    Highlights industry‑aligned skill requirements, modern tools, business communication, and deployment skills.
+
+    **Why this?**
+
+    Up to date skill requirements reflecting 2025-2026 job market, Includes qualitative details (soft skill, modern tools, expectation. Great for comparison between Kaggle dataset from the past and present day job demands on what quality is still the same
+
+**Kaggle Data Acquistion Extraction Plan:**
+
+load from csv on github, extract skill indicators, salary information for skill to salary analysis, Soft skill via text search (Teamwork, Communication..etc), grouping job titles (data scientist vs analyst vs engineers)
+
+**BuiltIn Job Posting Extraction Plan:**
+
+Scrapping –\> Tools (PowerBI, Tableu etc), Soft skills (Presentation, communication, collaboration et), Salary, Job description text, Required Programming Skills (R, Python, SQL, Scala etc), Industry domain, Job seniority
+
+**Storing dataset in standardized columns**
+
+job_idsource = "builtin"
+
+company
+
+job_title
+
+skill_list
+
+soft_skills
+
+salary_range
+
+job_description
+
+date_collected
+
+## Load Dataset and required packages 
+
+```{r}
+# For data wrangling
+library(tidyverse)
+library(janitor)
+
+# Website scrapping, HTML parsing (polite to avoid blockage)
+library(rvest)
+library(polite)
+
+# 607 Project 3 Main Github repository
+
+
+kaggle_url <- "https://raw.githubusercontent.com/meiqing39/607-Project-3/main/data_cleaned_2021.csv"
+
+kg <- read_csv(kaggle_url, show_col_types = FALSE) |> 
+  clean_names()   # <- renames by snake_case format, removes special character
+
+#Ensures consistent and reproducible references to variable by using janitor function clean_names()
+```
+
+```{r}
+# Tibble Resource table
+sources_roles <- tibble(
+  Source = c(
+    "Kaggle dataset (structured job postings)",
+    "BuiltIn job postings (recent, unstructured)",
+    "NYIT article (skills overview)",
+    "Pragmatic Institute article (skills 2023)"
+  ),
+  Role = c(
+    "Primary quantitative dataset used for skill frequency and salary association analyses",
+    "Supplemental contemporary postings used to validate/contrast 2025–2026 skill demand",
+    "Qualitative reference to define/justify skill taxonomy (not stored in DB)",
+    "Qualitative reference to contextualize/interpret findings (not stored in DB)"
+  )
+)
+
+print(sources_roles)
+```
+
+## Entity-Relationship (ER) Diagram
+
+ER diagram shows the normalized database design used to store job postings, technical skills, and soft skills collected from the Kaggle dataset and BuiltIn job postings.
+
+```{r, echo=FALSE, out.width="90%"}
+
+photoURL <- "https://github.com/meiqing39/607-Project-3/blob/main/Project%203%20ERD.png?raw=true"
+knitr::include_graphics(photoURL)
+```
+
+## Normalize Kaggle CSV - relational connection job_id
+
+- job level attributes (title, company, industry, salary) extracted into jobs table
+
+- Technical skills: extract from binary columns, reshape into longer format with pivot longer function connect each job with required skills 
+
+- job description test extracted without modding for later soft skill text analysis
+
+
+```{r}
+# Extract job level data
+jobs <- kg |> 
+  transmute(
+    job_id = row_number(),
+    job_title,
+    company = company_name,
+    location,
+    industry,
+    avg_salary_k,
+    source = "kaggle"
+  )
+
+# Extract job description (soft skill use)
+job_descriptions <- kg |> 
+  transmute(
+    job_id = row_number(),
+    job_description
+  )
+
+# Id skill columns
+
+skill_cols <- names(kg)[
+  names(kg) %in% c(
+    "python","sql","aws","excel","tableau","spark",
+    "sas","pytorch","keras","scikit","tensor",
+    "hadoop","flink","mongo","google_an"
+  )
+]
+
+
+
+# Combine created skill_cols to job_id to make job_skills table
+job_skills <- kg |> 
+  mutate(job_id = row_number()) |> 
+  select(job_id, all_of(skill_cols)) |> 
+  pivot_longer(
+    cols = -job_id,
+    names_to = "skill",
+    values_to = "present"
+  ) |> 
+  filter(present == 1) |> 
+  select(job_id, skill)
+         
+```
+
+
+## Job Posting Web Scrapping 
+
+```{r}
+
+# Create Scrapping function for scrapping of job title and job description later
+
+get1 <- function(html, css) {
+  node <- html_element(html, css)
+  if (inherits(node, "xml_missing") || is.na(node)) return("")
+  html_text2(node)
+}
+
+first_nonempty <- function(html, selectors) {
+  for (sel in selectors) {
+    txt <- get1(html, sel)
+    if (nzchar(txt)) return(txt)
+  }
+  ""
+}
+
+scrape_builtin <- function(url, ua = "607-Project-3/edu (rvest+polite)") {
+  ses <- polite::bow(url, user_agent = ua, force = TRUE)
+  pg  <- polite::scrape(ses)
+
+  # Title
+  title <- first_nonempty(pg, c("h1", "meta[property='og:title']"))
+  if (!nzchar(title)) title <- NA_character_
+
+  # Description: try a few common containers, fall back to main/body
+  desc <- first_nonempty(pg, c(
+    "article",
+    "[data-testid='job-description']",
+    "[data-qa='job-description']",
+    "div[class*='job-description']",
+    "section[class*='description']"
+  ))
+  if (!nzchar(desc)) desc <- get1(pg, "[role='main']")
+  if (!nzchar(desc)) desc <- get1(pg, "body")
+  if (!nzchar(desc)) desc <- NA_character_
+
+  tibble(
+    job_title       = title,
+    job_description = desc,
+    job_url         = url
+  )
+}
+
+# Organize all job posting URLs into a tibble
+
+builtin_urls <- tibble(
+  job_url = c(
+    "https://builtin.com/job/manager-data-scientist-alternate-data-strategy/8162509",
+    "https://builtin.com/job/principal-associate-data-scientist-ai-software-engineering/8017518",
+    "https://builtin.com/job/principal-associate-data-scientist-us-card-new-credit-team/8029691",
+    "https://builtin.com/job/senior-associate-data-scientist/8432791",
+    "https://builtin.com/job/data-scientist-ii-real-world-evidence-rwe-pharma-r-d/8031762",
+    "https://builtin.com/job/staff-data-scientist-growth-care/8019471",
+    "https://www.builtinnyc.com/job/senior-staff-data-scientist-invest/8697390",
+    "https://www.builtinnyc.com/job/staff-data-scientist-borrow/8290699",
+    "https://www.builtinnyc.com/job/field-data-scientist-ai-deployment/7405417",
+    "https://www.builtinnyc.com/job/ai-genai-data-scientist-senior-manager/8258875",
+    "https://www.builtinnyc.com/job/data-scientist/8446518"
+  ))
+
+
+# Scrape --> builtin_raw 
+safe_scrape <- purrr::safely(scrape_builtin)
+
+builtin_raw <- builtin_urls |> 
+  mutate(res = map(job_url, safe_scrape)) |> 
+  transmute(
+    job_url,
+    job_title  = map_chr(res, ~ .x$result$job_title %||% NA_character_),
+    job_description = map_chr(res, ~ .x$result$job_description %||% NA_character_))
+
+
+# Double checking that job description returns with page body text for skill, soft skill keywords, and frequency comparison later - text number appear = good 
+
+nchar(builtin_raw$job_description)
+
+
+# Scrape and  Manually add company and industry from data seen on job posting website
+builtin_jobs <- builtin_raw |> 
+  mutate(
+    company = case_when(
+      str_detect(job_url, "capital|cap1") ~ "Capital One",
+      str_detect(job_url, "nylife|new-york-life|senior-associate-data-scientist/8432791")
+~ "NY Life",
+      str_detect(job_url, "tempus") ~ "Tempus AI",
+      str_detect(job_url, "grow") ~ "Grow Therapy",
+      str_detect(job_url, "sofi") ~ "SoFi",
+      str_detect(job_url, "braze") ~ "Braze",
+      str_detect(job_url, "prc") ~ "PRC",
+      str_detect(job_url, "octus") ~ "Octus",
+      TRUE ~ NA_character_
+    ),
+    industry = case_when(
+      company %in% c("Capital One", "SoFi", "NY Life") ~ "Finance",
+company == "Tempus AI" ~ "Healthcare / Pharma",
+      company == "Grow Therapy" ~ "Healthcare",
+      company == "Braze" ~ "SaaS / Martech",
+      company %in% c("PRC", "Octus") ~ "Consulting",
+      TRUE ~ NA_character_
+    ),
+    source = "builtin",
+    job_id = row_number()
+  ) %>%
+  select(job_id, job_title, company, industry, source, job_url, job_description)
+
+
+# extract skills seen on job descriptions
+skill_keywords <- c(
+  # languages
+  "python","r","sql","scala","java",
+  # libraries / ml
+  "pytorch","tensorflow","scikit","sklearn","xgboost",
+  # platforms
+  "aws","azure","gcp","databricks","snowflake","spark",
+  # bi / viz
+  "tableau","power bi")
+
+
+builtin_job_skills <- builtin_jobs %>%
+  transmute(job_id, text = tolower(job_description %||% "")) %>%
+  filter(nzchar(text)) %>%
+  crossing(skill = skill_keywords) %>%
+  mutate(rx = paste0("\\b", skill, "\\b")) %>%
+  filter(str_detect(text, regex(rx, ignore_case = TRUE))) %>%
+  distinct(job_id, skill)
+
+```
+
+
+# Table result to ensure data was extracted and organized
+
+```{r}
+
+head(builtin_jobs)
+
+builtin_job_skills |>
+  count(skill) |> 
+  arrange(desc(n))
+```
+
+I scraped job posting descriptions from Builtin to extract modern technical and soft skills using keyword matching while also understanding that some attributes (salary, explicit seniority levels) are inconsistent available on job posting websites. Salary based analyses rely mostly on the structured kaggle dataset, while the Builtin job posting provide up to date information on skill demands and tools used as data scientists. Industry classification were assigned manually based on company information. 
