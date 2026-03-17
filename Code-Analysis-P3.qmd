@@ -21,7 +21,7 @@ library(ggplot2)
 get_url <- "https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"
 jobs_posting <- read_csv(get_url)
 jobs_posting
-#colnames(jobs_posting)
+colnames(jobs_posting)
 #head(10)
 
 ```
@@ -29,15 +29,15 @@ jobs_posting
 **Examine Data structure and initial inspection**
 
 ```{r}
-glimpse(load_url)
+glimpse(jobs_posting)
 ```
 
 ```{r}
-summary(load_url)
+summary(jobs_posting)
 ```
 
 ```{r}
-dim(load_url)
+dim(jobs_posting)
 ```
 
 # **Data quality issues**
@@ -56,7 +56,7 @@ The binary skill columns provide a practical proxy for skill demand in job posti
 
 Exploratory summaries also suggest the presence of extreme values. For instance, company age ranges up to 277 years, and average salary ranges from 15.5 to 254 thousand dollars. While some of these values may be valid, they require further inspection through visualizations such as boxplots and histograms.
 
-## **Re-coding placeholder values as missing** 
+## **Re-coding placeholder values as missing**
 
 ```{r}
 jobs_posting_clean <- jobs_posting |>
@@ -66,14 +66,128 @@ jobs_posting_clean <- jobs_posting |>
     Age = na_if(Age, -1),
     Competitors = na_if(Competitors, "-1"),
     seniority_by_title = na_if(seniority_by_title, "na"),
-    Degree = na_if(Degree, "na")
+    Degree = na_if(Degree, "na"),
+    Sector = na_if(Sector, "-1"),
+    Industry = na_if(Industry, "-1")
   )
 jobs_posting_clean
 #colSums(is.na(jobs_posting_clean))
 ```
 
+## **Renaming the Variable with clean names**
+
+```{r}
+#install.packages('janitor')
+library(janitor)
+
+jobs_posting_clean_names <- jobs_posting_clean |>
+  clean_names()
+colnames(jobs_posting_clean_names)
+
+```
+
 ## **Checking missing Values**
 
 ```{r}
-colSums(is.na(jobs_posting_clean))
+colSums(is.na(jobs_posting_clean_names))
 ```
+
+## **Missing Values**
+
+Missing values were identified using the `is.na()` function. Depending on the variable, missing values were either removed or handled appropriately to maintain data integrity
+
+## Summarize skill demand
+
+```{r}
+skill_summary <- jobs_posting_clean_names |>
+  summarise(
+    Python = mean(python, na.rm = TRUE),
+    SQL = mean(sql, na.rm = TRUE),
+    Excel = mean(excel, na.rm = TRUE),
+    AWS = mean(aws, na.rm = TRUE),
+    Spark = mean(spark, na.rm = TRUE),
+    Tableau = mean(tableau, na.rm = TRUE)
+  ) |>
+  pivot_longer(
+    cols = everything(),
+    names_to = "Skill",
+    values_to = "Proportion"
+  )
+skill_summary
+
+```
+
+#Summarizing the skills we can see that python, excel and sql are the most required skill in the job market
+
+## **Check for Outliers**
+
+```{r}
+ggplot(skill_summary, aes(x = reorder(Skill, Proportion), y = Proportion, fill = Skill )) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Proportion of Job Postings Requiring Selected Skills",
+    x = "SKill",
+    y = "Proportion of postings"
+  ) +
+  theme(legend.position = 'none')
+```
+
+## **Check salary Outliers**
+
+```{r}
+ggplot(jobs_posting_clean_names, aes(y = avg_salary_k)) +
+  geom_boxplot() +
+  labs(
+    title = "Boxplot of Average Salary",
+    y = "Average Salary (K)"
+  )
+```
+
+##The Average Salary is 70k to 125k after observing the boxplot
+
+## **Check age distribution**
+
+```{r}
+ggplot(jobs_posting_clean_names, aes(x = age)) +
+  geom_histogram(bins = 30) +
+  labs(
+    title = "Distribution of Company Age",
+    x = "Company Age",
+    y = "Count"
+  )
+```
+
+**##Interpretation**
+
+Base on this plot we can observe that the majority of companies have less than 100 years old.
+
+### **Check job title and salary**
+
+```{r}
+job_salary_summary <- jobs_posting_clean_names |>
+  
+  group_by(job_title) |>
+  summarise(
+    mean_salary = mean(avg_salary_k, na.rm = TRUE),
+    median_salary = median(avg_salary_k, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  ) |>
+  filter(n >= 5) |>
+  arrange(desc(mean_salary))
+job_salary_summary |>
+  ggplot(aes( x = reorder(job_title, mean_salary), y = mean_salary, fill = job_title)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Average Salary for Job Title",
+    x = "Job Title",
+    y = " Average Salary (K)"
+  ) +
+  theme(legend.position = 'None')
+
+
+```
+
+##To compare pay across roles, job postings were grouped by job title and summarized using average salary. Because many titles appeared only a few times, the analysis focused on titles with at least five postings. This provides a more stable comparison of salary levels across common job categories.
