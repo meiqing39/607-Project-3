@@ -8,20 +8,25 @@ editor: visual
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
-## Running Code
+## Working with Kaggle dataset
 
-Loading the raw data from Github
+**Loading the raw kaggle data from Github**
 
 ```{r}
 library(tidyverse)
 library(dplyr)
 library(readr)
 library(ggplot2)
+library(janitor)
 
-get_url <- "https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"
-jobs_posting <- read_csv(get_url)
-jobs_posting
-colnames(jobs_posting)
+kaggle_url <- "https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"
+kg <- read_csv(kaggle_url, show_col_types = FALSE) |> 
+  clean_names()   # <- renames by snake_case format, removes special character
+
+#Ensures consistent and reproducible references to variable by using janitor function clean_names()
+kg
+
+colnames(kg)
 #head(10)
 
 ```
@@ -29,15 +34,15 @@ colnames(jobs_posting)
 **Examine Data structure and initial inspection**
 
 ```{r}
-glimpse(jobs_posting)
+glimpse(kg)
 ```
 
 ```{r}
-summary(jobs_posting)
+summary(kg)
 ```
 
 ```{r}
-dim(jobs_posting)
+dim(kg)
 ```
 
 # **Data quality issues**
@@ -56,79 +61,140 @@ The binary skill columns provide a practical proxy for skill demand in job posti
 
 Exploratory summaries also suggest the presence of extreme values. For instance, company age ranges up to 277 years, and average salary ranges from 15.5 to 254 thousand dollars. While some of these values may be valid, they require further inspection through visualizations such as boxplots and histograms.
 
-## **Re-coding placeholder values as missing**
+## **#Re-coding placeholder values as missing**
+
+**Standardize Kaggle jobs**
 
 ```{r}
-jobs_posting_clean <- jobs_posting |>
-  mutate(
-    Rating = na_if(Rating, -1),
-    Founded = na_if(Founded, -1),
-    Age = na_if(Age, -1),
-    Competitors = na_if(Competitors, "-1"),
-    seniority_by_title = na_if(seniority_by_title, "na"),
-    Degree = na_if(Degree, "na"),
-    Sector = na_if(Sector, "-1"),
-    Industry = na_if(Industry, "-1")
+kaggle_jobs <- kg |>
+  transmute(
+    job_id = paste0("kg_", row_number()),
+    source = "kaggle",
+    job_title,
+    company = company_name,
+    location,
+    industry,
+    avg_salary_k,
+    salary_min_k = lower_salary,
+    salary_max_k = upper_salary,
+    job_description,
+    job_url = NA_character_
   )
-jobs_posting_clean
-#colSums(is.na(jobs_posting_clean))
+kaggle_jobs
 ```
 
-## **Renaming the Variable with clean names**
+## Standardize BuiltIn jobs
 
 ```{r}
-#install.packages('janitor')
-library(janitor)
 
-jobs_posting_clean_names <- jobs_posting_clean |>
-  clean_names()
-colnames(jobs_posting_clean_names)
-
+builtin_jobs_clean <- builtin_jobs |>
+  transmute(
+    job_id = paste0("bi_", row_number()),
+    source = "builtin",
+    job_title,
+    company,
+    location = NA_character_,
+    industry,
+    avg_salary_k = NA_real_,
+    salary_min_k = NA_real_,
+    salary_max_k = NA_real_,
+    job_description,
+    job_url
+  )
+builtin_jobs_clean
 ```
 
-## **Checking missing Values**
+## Merge Job postings
 
 ```{r}
-colSums(is.na(jobs_posting_clean_names))
+all_jobs <- bind_rows(kaggle_jobs, builtin_jobs_clean)
+all_jobs
 ```
 
 ## **Missing Values**
 
-Missing values were identified using the `is.na()` function. Depending on the variable, missing values were either removed or handled appropriately to maintain data integrity
+Missing values were identified using the `is.na()` function. Depending on the variable, missing values were either removed or handled appropriately to maintain data integrit
 
-## Summarize skill demand
+## **Merge kaggle skills**
 
 ```{r}
-skill_summary <- jobs_posting_clean_names |>
-  summarise(
-    Python = mean(python, na.rm = TRUE),
-    SQL = mean(sql, na.rm = TRUE),
-    Excel = mean(excel, na.rm = TRUE),
-    AWS = mean(aws, na.rm = TRUE),
-    Spark = mean(spark, na.rm = TRUE),
-    Tableau = mean(tableau, na.rm = TRUE)
-  ) |>
-  pivot_longer(
-    cols = everything(),
-    names_to = "Skill",
-    values_to = "Proportion"
+skill_cols <- names(kg)[
+  names(kg) %in% c(
+    "python","sql","aws","excel","tableau","spark",
+    "sas","pytorch","keras","scikit","tensor",
+    "hadoop","flink","mongo","google_an"
   )
-skill_summary
+]
+
+kaggle_job_skills <- kg |>
+  mutate(job_id = paste0("kg_", row_number())) |>
+  select(job_id, all_of(skill_cols)) |>
+  pivot_longer(
+    cols = -job_id,
+    names_to = "skill",
+    values_to = "present"
+  ) |>
+  filter(present == 1) |>
+  select(job_id, skill)
 
 ```
 
 #Summarizing the skills we can see that python, excel and sql are the most required skill in the job market
 
-## **Check for Outliers**
+**#BuiltIn skills**
 
 ```{r}
-ggplot(skill_summary, aes(x = reorder(Skill, Proportion), y = Proportion, fill = Skill )) +
+skill_keywords <- c(
+  "python","r","sql","scala","java",
+  "pytorch","tensorflow","scikit","sklearn","xgboost",
+  "aws","azure","gcp","databricks","snowflake","spark",
+  "tableau","power bi"
+)
+
+builtin_job_skills_clean <- builtin_jobs |>
+  mutate(job_id = paste0("bi_", row_number())) |>
+  transmute(job_id, text = tolower(coalesce(job_description, ""))) |>
+  filter(nzchar(text)) |>
+  crossing(skill = skill_keywords) |>
+  mutate(rx = paste0("\\b", skill, "\\b")) |>
+  filter(str_detect(text, regex(rx, ignore_case = TRUE))) |>
+  distinct(job_id, skill)
+
+```
+
+## ##Merge all skills
+
+```{r}
+all_job_skills <- bind_rows(
+  kaggle_job_skills,
+  builtin_job_skills_clean
+)
+all_job_skills
+
+```
+
+**##Checks**
+
+```{r}
+count(all_jobs, source)
+count(all_job_skills, skill, sort = TRUE)
+
+glimpse(all_jobs)
+glimpse(all_job_skills)
+
+```
+
+```{r}
+skill_counts <- all_job_skills |>
+  count(skill, sort = TRUE)
+
+ggplot(skill_counts, aes(x = reorder(skill, n), y = n, fill = skill )) +
   geom_col() +
   coord_flip() +
   labs(
-    title = "Proportion of Job Postings Requiring Selected Skills",
-    x = "SKill",
-    y = "Proportion of postings"
+    title = "Frequency of Skills in Job Postings",
+    x = "Skill",
+    y = "Number of postings"
   ) +
   theme(legend.position = 'none')
 ```
@@ -136,7 +202,7 @@ ggplot(skill_summary, aes(x = reorder(Skill, Proportion), y = Proportion, fill =
 ## **Check salary Outliers**
 
 ```{r}
-ggplot(jobs_posting_clean_names, aes(y = avg_salary_k)) +
+ggplot(all_jobs_salary, aes(y = avg_salary_k)) +
   geom_boxplot() +
   labs(
     title = "Boxplot of Average Salary",
@@ -146,26 +212,29 @@ ggplot(jobs_posting_clean_names, aes(y = avg_salary_k)) +
 
 ##The Average Salary is 70k to 125k after observing the boxplot
 
-## **Check age distribution**
+## **Number of jobs posting vs Average Salary**
 
 ```{r}
-ggplot(jobs_posting_clean_names, aes(x = age)) +
+all_jobs_salary <- all_jobs |>
+  filter(!is.na(avg_salary_k))
+
+ggplot(all_jobs_salary, aes(x = avg_salary_k)) +
   geom_histogram(bins = 30) +
   labs(
-    title = "Distribution of Company Age",
-    x = "Company Age",
-    y = "Count"
+    title = "Distribution of Average Salary",
+    x = "Average Salary (K)",
+    y = "Number of Job Postings"
   )
 ```
 
 **##Interpretation**
 
-Base on this plot we can observe that the majority of companies have less than 100 years old.
+The histogram shows that most job postings fall within the mid-range salary band, with a concentration between approximately 70K and 130K. Higher salary values are less frequent and may represent senior or specialized roles.
 
 ### **Check job title and salary**
 
 ```{r}
-job_salary_summary <- jobs_posting_clean_names |>
+job_salary_summary <- all_jobs_salary |>
   
   group_by(job_title) |>
   summarise(
@@ -185,9 +254,28 @@ job_salary_summary |>
     x = "Job Title",
     y = " Average Salary (K)"
   ) +
-  theme(legend.position = 'None')
+  theme(legend.position = 'none')
 
 
 ```
 
 ##To compare pay across roles, job postings were grouped by job title and summarized using average salary. Because many titles appeared only a few times, the analysis focused on titles with at least five postings. This provides a more stable comparison of salary levels across common job categories.
+
+##Comparing kaggle vs BuiltIn skills
+
+```{r}
+source_skill_counts <- all_jobs |>
+  left_join(all_job_skills, by = "job_id") |>
+  filter(!is.na(skill)) |>
+  count(source, skill)
+
+source_skill_counts |>
+  ggplot(aes(x = reorder(skill, n), y = n, fill = source)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(
+    title = "Skill Frequency by Data Source",
+    x = "Skill",
+    y = "Number of Job Postings"
+  )
+```
