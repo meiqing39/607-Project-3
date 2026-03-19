@@ -184,8 +184,27 @@ glimpse(all_job_skills)
 
 ```
 
+##Kaggle Frequency of skills in job postings
+
 ```{r}
-skill_counts <- all_job_skills |>
+skill_counts <- kaggle_job_skills |>
+  count(skill, sort = TRUE)
+
+ggplot(skill_counts, aes(x = reorder(skill, n), y = n, fill = skill )) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Frequency of Skills in Job Postings",
+    x = "Skill",
+    y = "Number of postings"
+  ) +
+  theme(legend.position = 'none')
+```
+
+##BuiltIn frequency of skills in job postings
+
+```{r}
+skill_counts <- builtin_job_skills_clean |>
   count(skill, sort = TRUE)
 
 ggplot(skill_counts, aes(x = reorder(skill, n), y = n, fill = skill )) +
