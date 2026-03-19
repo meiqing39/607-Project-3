@@ -13,11 +13,14 @@ Quarto enables you to weave together content and executable code into a finished
 **Loading the raw kaggle data from Github**
 
 ```{r}
-library(tidyverse)
-library(dplyr)
-library(readr)
-library(ggplot2)
-library(janitor)
+pacman::p_load(janitor,
+               tidyverse)
+
+#library(tidyverse) Moved into pacman statement package to make it easier to open up and install the latest version
+#library(dplyr) Removed this library because it is already included in tidyverse
+#library(readr) Removed this library because it is already included in tidyverse
+#library(ggplot2) Removed this library because it is already included in tidyverse
+#library(janitor) Moved into pacman statement package to make it easier to open up and install the latest version
 
 kaggle_url <- "https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"
 kg <- read_csv(kaggle_url, show_col_types = FALSE) |> 
