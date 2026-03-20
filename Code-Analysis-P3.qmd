@@ -18,6 +18,7 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 library(janitor)
+#source("builtIn_prep.R")
 
 kaggle_url <- "https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"
 kg <- read_csv(kaggle_url, show_col_types = FALSE) |> 
@@ -29,6 +30,12 @@ kg
 colnames(kg)
 #head(10)
 
+```
+
+**##Exporting P3_data_acquisition.Rmd**
+
+```{r}
+builtin_prep.R()
 ```
 
 **Examine Data structure and initial inspection**
