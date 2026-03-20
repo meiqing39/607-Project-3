@@ -304,7 +304,7 @@ source_skill_counts |>
 
 ## Analysis
 
--   What are the most common required skills?
+What are the most common required skills?
 
 Let's look at the top 5 skills from the Builtin and Kaggle data sets:
 
@@ -331,7 +331,17 @@ builtin_top5 |>
     skill = "Skill",
     count = "Count"
   ) |>
-  tab_header(title = "Top 5 Skills - Builtin Data Set")
+  tab_header(title = "Top 5 Skills - Builtin")
+
+builtin_top5 |> 
+  ggplot(aes(x = reorder(skill, -count), y = count, fill = skill)) +
+  geom_col() +
+  geom_text(aes(label = count), vjust = -0.5, size = 3) +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(fill = "none") +
+  labs(title = "Top 5 Skills (Builitin)", x = "Skill", y = "Count")
 
 
 kaggle_top5 |>
@@ -341,8 +351,17 @@ kaggle_top5 |>
     skill = "Skill",
     count = "Count"
   ) |>
-  tab_header(title = "Top 5 Skills - Kaggle Data Set")
+  tab_header(title = "Top 5 Skills - Kaggle")
 
+kaggle_top5 |> 
+  ggplot(aes(x = reorder(skill, -count), y = count, fill = skill)) +
+  geom_col() +
+  geom_text(aes(label = count), vjust = -0.5, size = 3) +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(fill = "none") +
+  labs(title = "Top 5 Skills (Kaggle)", x = "Skill", y = "Count")
 
 ```
 
@@ -352,7 +371,43 @@ It's worth noting that this data set is much smaller and all the job posts are i
 
 Kaggle shows Python, Excel, and SQL as the top 3 software skills. R is excluded from this data set, so it's not a good metric of how commonly R is a required skill. AWS cloud skills are also in demand, as is Apache Spark.
 
-Looking at the full list, Tableau shows up quite early. I don't know if it's fair to call Tableau a skill as it is the data analysis equivalent of self-checkout.
+Looking at the full list, Tableau shows up quite early. In my experience, the barrier to using Tableau isn't necessarily learning to use it, but the price.
+
+### All Skills
+
+```{r}
+#visualizing all Builtin Skills
+source_skill_counts |> 
+  filter(source == "builtin") |>
+  arrange(desc(n)) |>
+  rename("count" = n)  |>
+  ggplot(aes(x = reorder(skill, -count), y = count, fill = skill)) +
+  geom_col() +
+  geom_text(aes(label = count), vjust = -0.5, size = 3) +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(fill = "none") +
+  labs(title = "All Skills (Builitin)", x = "Skill", y = "Count")
+
+
+#All Kaggle skills
+source_skill_counts |> 
+  filter(source == "kaggle") |>
+  arrange(desc(n)) |>
+  rename("count" = n) |>
+   ggplot(aes(x = reorder(skill, -count), y = count, fill = skill)) +
+  geom_col() +
+  geom_text(aes(label = count), vjust = -0.5, size = 3) +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(fill = "none") +
+  labs(title = "All Skills (Kaggle)", x = "Skill", y = "Count")
+
+```
+
+In general, the Kaggle skills start with broad software (Python, Excel, SQL, AWS), then moves into more niche Apache software. Some of these are advanced Python libraries, like Pytorch, scikit, and Keras. Tensor is a data structure.
 
 ## Salary Analysis
 
@@ -386,13 +441,28 @@ avg_state |>
   slice_head(n = 10) |>
   select(state, avg_salary, job_count) |>
   gt() |>
+  cols_align(
+    align = "center",
+    columns = everything()
+  ) |>
   cols_label(
     state = "State",
-    avg_salary = "Average Salary (Thousands)",
+    avg_salary = "Average Salary (k)",
     job_count = "Number of Jobs"
   ) |>
   tab_header(title = "Top 10 States by Average Salary")
 
+
+avg_state |> 
+  slice_head(n = 10) |> 
+  ggplot(aes(x = reorder(state, -avg_salary), y = avg_salary, fill = state)) +
+  geom_col() +
+  geom_text(aes(label = paste0(avg_salary, "k")), vjust = -0.5, size = 3) +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(fill = "none") +
+  labs(title = "Top 10 States by Average Salary", x = "State", y = "Average Salary (k)")
 
 ```
 
@@ -458,15 +528,31 @@ salary_skill |>
   gt() |>
   cols_label(
     skill = "Skill",
-    avg_salary = "Mean Salary (K)",
-    difference = "Diff from Mean Salary (K)",
+    avg_salary = "Mean Salary (k)",
+    difference = "Diff from Mean Salary (k)",
     percentage = "% Diff from Mean Salary"
   ) |>
   tab_header(title = "How Much Are Skills Worth?")
   
+
+#A slightly dramatic bar chart
+salary_skill |> 
+  mutate(difference = avg_salary - 101) |>
+  ggplot(aes(x = reorder(skill, -difference), y = difference, fill = skill)) +
+  geom_col() +
+  geom_text(aes(label = paste0(difference, "k"), 
+                vjust = ifelse(difference >= 0, -0.5, 1.5)), 
+            size = 3) +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(fill = "none") +
+  expand_limits(y = c(min(salary_skill$avg_salary - 101) * 1.2, 
+                      max(salary_skill$avg_salary - 101) * 1.2)) +
+  labs(title = "How Much Are Skills Worth?", x = "Skill", y = "Difference from Mean Salary (k)")
 ```
 
-Excel is the #2 skills, but it's assocated with a lower salary. Can we conclude that learning Excel will drop your salary down by two grand? Probably not. But it's a more accessible skill, and may be associated with less intense/specialized jobs. Tableau is also fairly accessible, as is Google Analytics.
+Excel is the #2 skill, but it's assocated with a lower salary. Can we conclude that learning Excel will drop your salary down by two grand? Probably not. But it's a more accessible skill, and may be associated with less intense/specialized jobs. Tableau is also fairly accessible, as is Google Analytics.
 
 ### Skills and Title
 
@@ -474,10 +560,8 @@ What (if anything) does title mean? Are certain skills associated with a data sc
 
 Let's look at titles and skill counts together.
 
-This requires me to pivot something longer
-
 ```{r}
-#This is a data set that keeps everything and pivots the skills
+#This data set that keeps everything and pivots skills
 kg_long <- kg |>
     pivot_longer(
         cols = python:google_an,
@@ -490,7 +574,7 @@ kg_long <- kg |>
 kg_skills_pivot <- kg_long |>
   select(job_title_sim, skill)
 
-#changing the title "data analitics" to just analyst, so it matches (it honestly seems like an error)
+#changing the title "data analitics" to just analyst, so it matches (it seems like an error and it's also a typo)
 kg_skills_pivot <- kg_skills_pivot |>
     mutate(job_title_sim = if_else(job_title_sim == "data analitics", "analyst",
                                    job_title_sim))
@@ -573,11 +657,13 @@ kg_skills_agg |>
 
 ```
 
-Analysts seem more likely to need excel, SQL, and Tableau before python, whereas engineers and scientists generally need SQL, Python, and cloud skills. Analysts need more visualization tools like Tableau, BI, and google analytics.
+Analysts seem more likely to need excel, SQL, and Tableau before python, whereas engineers and scientists generally need SQL, Python, and cloud skills. Analysts need more visualization tools like Tableau, BI, and google analytics. In general, programming skills are preferred for scientists and engineers.
 
 ### What fields pay the most?
 
 Is understanding a particular area (e.g. healthcare or finance) correlated with a higher salary?
+
+In data science, you may need two skill sets. For example, you may need chemistry and data science skills in order to work at a pharmaceutical company.
 
 ```{r}
 
@@ -610,7 +696,7 @@ by_industry_multi |>
 
 ```
 
-Unsurprisingly, 3/10 are in finance (brokerage, financial analytics, investment banking). Others are in technology generally, along with media.
+Unsurprisingly, 3/10 are in finance (brokerage, financial analytics, investment banking), industries that tend to pay more. Others are in technology generally, along with media.
 
 ```{r}
 by_industry_multi |>
@@ -624,7 +710,7 @@ by_industry_multi |>
   tab_header(title = "Bottom Average Salaries by Industry")
 ```
 
-Some of these are industries where salaries tend to be on the lower side, like food & beverage and social services. Construction and architecture are similar fields.
+Some of these are industries where salaries tend to be on the lower side, like food & beverage and social services. Construction and architecture are adjacent fields.
 
 Gambling is interesting – it may offer higher salaries now, given the growth of gambling apps.
 
@@ -638,6 +724,10 @@ by_industry_multi |>
   slice_head(n = 10) |>
   select(industry, job_count) |>
   gt() |>
+  cols_align(
+    align = "center",
+    columns = job_count
+  ) |>
   cols_label(
     industry = "Industry",
     job_count = "Number of Jobs"
@@ -658,4 +748,4 @@ by_industry_multi |>
     labs(title = "Most Common Industries for Data Science", x = "Industry", y = "Number of Jobs")
 ```
 
--   What is the average/median years of experience requirement? Do certain fields tend to require more years of experience? How much is each YOE worth? Is it linear?
+According to this, having a biology background could be valuable (biotech & pharmaceuticals). There's demand in IT and adjacent fields like software and internet, along with insurance carriers (presumably to assess risk).
