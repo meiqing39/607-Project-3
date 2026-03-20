@@ -324,4 +324,11 @@ builtin_job_skills |>
   arrange(desc(n))
 ```
 
+##Extracting csv file from builtin_jobs and builtin_job_skills
+```{r}
+write_csv(builtin_jobs, "builtin_jobs.csv")
+write_csv(builtin_job_skills, "builtin_job_skills.csv")
+```
+
+
 I scraped job posting descriptions from Builtin to extract modern technical and soft skills using keyword matching while also understanding that some attributes (salary, explicit seniority levels) are inconsistent available on job posting websites. Salary based analyses rely mostly on the structured kaggle dataset, while the Builtin job posting provide up to date information on skill demands and tools used as data scientists. Industry classification were assigned manually based on company information. 

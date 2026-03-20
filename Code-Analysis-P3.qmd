@@ -19,6 +19,11 @@ library(readr)
 library(ggplot2)
 library(janitor)
 
+#builtin raw data load
+builtin_jobs <- read_csv("https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/RamdeGuibril/builtin_jobs.csv")
+builtin_job_skills <- read_csv("https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/RamdeGuibril/builtin_job_skills.csv")
+
+#Kaggle data load###
 kaggle_url <- "https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"
 kg <- read_csv(kaggle_url, show_col_types = FALSE) |> 
   clean_names()   # <- renames by snake_case format, removes special character
@@ -31,11 +36,6 @@ colnames(kg)
 
 ```
 
-**##Exporting P3_data_acquisition.Rmd**
-
-```{r}
-builtin_prep.R()
-```
 
 **Examine Data structure and initial inspection**
 
@@ -168,7 +168,7 @@ builtin_job_skills_clean <- builtin_jobs |>
 
 ```
 
-## ##Merge all skills
+####Merge all skills
 
 ```{r}
 all_job_skills <- bind_rows(
@@ -224,19 +224,6 @@ ggplot(skill_counts, aes(x = reorder(skill, n), y = n, fill = skill )) +
   theme(legend.position = 'none')
 ```
 
-## **Check salary Outliers**
-
-```{r}
-ggplot(all_jobs_salary, aes(y = avg_salary_k)) +
-  geom_boxplot() +
-  labs(
-    title = "Boxplot of Average Salary",
-    y = "Average Salary (K)"
-  )
-```
-
-##The Average Salary is 70k to 125k after observing the boxplot
-
 ## **Number of jobs posting vs Average Salary**
 
 ```{r}
@@ -252,9 +239,24 @@ ggplot(all_jobs_salary, aes(x = avg_salary_k)) +
   )
 ```
 
-**##Interpretation**
+**##Interpretation of the above plot**
 
 The histogram shows that most job postings fall within the mid-range salary band, with a concentration between approximately 70K and 130K. Higher salary values are less frequent and may represent senior or specialized roles.
+
+
+## **Check salary Outliers**
+
+```{r}
+ggplot(all_jobs_salary, aes(y = avg_salary_k)) +
+  geom_boxplot() +
+  labs(
+    title = "Boxplot of Average Salary",
+    y = "Average Salary (K)"
+  )
+```
+
+**##Interpretation: The Average Salary is 70k to 125k after observing the boxplot**
+
 
 ### **Check job title and salary**
 
@@ -284,7 +286,7 @@ job_salary_summary |>
 
 ```
 
-##To compare pay across roles, job postings were grouped by job title and summarized using average salary. Because many titles appeared only a few times, the analysis focused on titles with at least five postings. This provides a more stable comparison of salary levels across common job categories.
+##Interpretation: To compare pay across roles, job postings were grouped by job title and summarized using average salary. Because many titles appeared only a few times, the analysis focused on titles with at least five postings. This provides a more stable comparison of salary levels across common job categories.
 
 ##Comparing kaggle vs BuiltIn skills
 
