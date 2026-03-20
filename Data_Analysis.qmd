@@ -1,0 +1,661 @@
+---
+title: "Code-Analysis-P3"
+format: html
+editor: visual
+---
+
+## Approach
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Working with Kaggle dataset
+
+**Loading the raw kaggle data from Github**
+
+```{r}
+pacman::p_load(janitor,
+               tidyverse)
+
+#library(tidyverse) Moved into pacman statement package to make it easier to open up and install the latest version
+#library(dplyr) Removed this library because it is already included in tidyverse
+#library(readr) Removed this library because it is already included in tidyverse
+#library(ggplot2) Removed this library because it is already included in tidyverse
+#library(janitor) Moved into pacman statement package to make it easier to open up and install the latest version
+
+kaggle_url <- "https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"
+kg <- read_csv(kaggle_url, show_col_types = FALSE) |> 
+  clean_names()   # <- renames by snake_case format, removes special character
+
+#Ensures consistent and reproducible references to variable by using janitor function clean_names()
+kg
+
+colnames(kg)
+#head(10)
+
+```
+
+**Examine Data structure and initial inspection**
+
+```{r}
+glimpse(kg)
+```
+
+```{r}
+summary(kg)
+```
+
+```{r}
+dim(kg)
+```
+
+# **Data quality issues**
+
+Several variables contain placeholder values that represent missing data rather than valid observations. For example, `Rating`, `Founded`, and `Age` include values of `-1`, while variables such as `Competitors`, `seniority_by_title`, and `Degree` use strings such as `"-1"` or `"na"` to indicate unavailable information. These values must be recoded as missing before further analysis.
+
+## **Summary of the initial inspection**
+
+The dataset contains 742 job postings and 42 variables. These variables include job and company descriptors, salary information, and binary indicators for technical skills such as Python, SQL, AWS, and Tableau. Initial inspection using `glimpse()` and `summary()` showed that the dataset contains both raw text variables and derived variables that are more suitable for analysis.
+
+## **Skill demand**
+
+The binary skill columns provide a practical proxy for skill demand in job postings. Since these variables are coded as 0 and 1, their means can be interpreted as the proportion of postings that require each skill. Preliminary results suggest that Python, Excel, and SQL are among the most frequently requested skills in the dataset.
+
+## **Outliers and unusual values**
+
+Exploratory summaries also suggest the presence of extreme values. For instance, company age ranges up to 277 years, and average salary ranges from 15.5 to 254 thousand dollars. While some of these values may be valid, they require further inspection through visualizations such as boxplots and histograms.
+
+## **#Re-coding placeholder values as missing**
+
+**Standardize Kaggle jobs**
+
+```{r}
+kaggle_jobs <- kg |>
+  transmute(
+    job_id = paste0("kg_", row_number()),
+    source = "kaggle",
+    job_title,
+    company = company_name,
+    location,
+    industry,
+    avg_salary_k,
+    salary_min_k = lower_salary,
+    salary_max_k = upper_salary,
+    job_description,
+    job_url = NA_character_
+  )
+kaggle_jobs
+```
+
+## Standardize BuiltIn jobs
+
+```{r}
+
+builtin_jobs_clean <- builtin_jobs |>
+  transmute(
+    job_id = paste0("bi_", row_number()),
+    source = "builtin",
+    job_title,
+    company,
+    location = NA_character_,
+    industry,
+    avg_salary_k = NA_real_,
+    salary_min_k = NA_real_,
+    salary_max_k = NA_real_,
+    job_description,
+    job_url
+  )
+builtin_jobs_clean
+```
+
+## Merge Job postings
+
+```{r}
+all_jobs <- bind_rows(kaggle_jobs, builtin_jobs_clean)
+all_jobs
+```
+
+## **Missing Values**
+
+Missing values were identified using the `is.na()` function. Depending on the variable, missing values were either removed or handled appropriately to maintain data integrit
+
+## **Merge kaggle skills**
+
+```{r}
+skill_cols <- names(kg)[
+  names(kg) %in% c(
+    "python","sql","aws","excel","tableau","spark",
+    "sas","pytorch","keras","scikit","tensor",
+    "hadoop","flink","mongo","google_an"
+  )
+]
+
+kaggle_job_skills <- kg |>
+  mutate(job_id = paste0("kg_", row_number())) |>
+  select(job_id, all_of(skill_cols)) |>
+  pivot_longer(
+    cols = -job_id,
+    names_to = "skill",
+    values_to = "present"
+  ) |>
+  filter(present == 1) |>
+  select(job_id, skill)
+
+```
+
+#Summarizing the skills we can see that python, excel and sql are the most required skill in the job market
+
+**#BuiltIn skills**
+
+```{r}
+skill_keywords <- c(
+  "python","r","sql","scala","java",
+  "pytorch","tensorflow","scikit","sklearn","xgboost",
+  "aws","azure","gcp","databricks","snowflake","spark",
+  "tableau","power bi"
+)
+
+builtin_job_skills_clean <- builtin_jobs |>
+  mutate(job_id = paste0("bi_", row_number())) |>
+  transmute(job_id, text = tolower(coalesce(job_description, ""))) |>
+  filter(nzchar(text)) |>
+  crossing(skill = skill_keywords) |>
+  mutate(rx = paste0("\\b", skill, "\\b")) |>
+  filter(str_detect(text, regex(rx, ignore_case = TRUE))) |>
+  distinct(job_id, skill)
+
+```
+
+## ##Merge all skills
+
+```{r}
+all_job_skills <- bind_rows(
+  kaggle_job_skills,
+  builtin_job_skills_clean
+)
+all_job_skills
+
+```
+
+**##Checks**
+
+```{r}
+count(all_jobs, source)
+count(all_job_skills, skill, sort = TRUE)
+
+glimpse(all_jobs)
+glimpse(all_job_skills)
+
+```
+
+##Kaggle Frequency of skills in job postings
+
+```{r}
+skill_counts <- kaggle_job_skills |>
+  count(skill, sort = TRUE)
+
+ggplot(skill_counts, aes(x = reorder(skill, n), y = n, fill = skill )) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Frequency of Skills in Job Postings",
+    x = "Skill",
+    y = "Number of postings"
+  ) +
+  theme(legend.position = 'none')
+```
+
+##BuiltIn frequency of skills in job postings
+
+```{r}
+skill_counts <- builtin_job_skills_clean |>
+  count(skill, sort = TRUE)
+
+ggplot(skill_counts, aes(x = reorder(skill, n), y = n, fill = skill )) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Frequency of Skills in Job Postings",
+    x = "Skill",
+    y = "Number of postings"
+  ) +
+  theme(legend.position = 'none')
+```
+
+## **Check salary Outliers**
+
+```{r}
+ggplot(all_jobs_salary, aes(y = avg_salary_k)) +
+  geom_boxplot() +
+  labs(
+    title = "Boxplot of Average Salary",
+    y = "Average Salary (K)"
+  )
+```
+
+##The Average Salary is 70k to 125k after observing the boxplot
+
+## **Number of jobs posting vs Average Salary**
+
+```{r}
+all_jobs_salary <- all_jobs |>
+  filter(!is.na(avg_salary_k))
+
+ggplot(all_jobs_salary, aes(x = avg_salary_k)) +
+  geom_histogram(bins = 30) +
+  labs(
+    title = "Distribution of Average Salary",
+    x = "Average Salary (K)",
+    y = "Number of Job Postings"
+  )
+```
+
+**##Interpretation**
+
+The histogram shows that most job postings fall within the mid-range salary band, with a concentration between approximately 70K and 130K. Higher salary values are less frequent and may represent senior or specialized roles.
+
+### **Check job title and salary**
+
+```{r}
+job_salary_summary <- all_jobs_salary |>
+  
+  group_by(job_title) |>
+  summarise(
+    mean_salary = mean(avg_salary_k, na.rm = TRUE),
+    median_salary = median(avg_salary_k, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  ) |>
+  filter(n >= 5) |>
+  arrange(desc(mean_salary))
+job_salary_summary |>
+  ggplot(aes( x = reorder(job_title, mean_salary), y = mean_salary, fill = job_title)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Average Salary for Job Title",
+    x = "Job Title",
+    y = " Average Salary (K)"
+  ) +
+  theme(legend.position = 'none')
+
+
+```
+
+##To compare pay across roles, job postings were grouped by job title and summarized using average salary. Because many titles appeared only a few times, the analysis focused on titles with at least five postings. This provides a more stable comparison of salary levels across common job categories.
+
+##Comparing kaggle vs BuiltIn skills
+
+```{r}
+source_skill_counts <- all_jobs |>
+  left_join(all_job_skills, by = "job_id") |>
+  filter(!is.na(skill)) |>
+  count(source, skill)
+
+source_skill_counts |>
+  ggplot(aes(x = reorder(skill, n), y = n, fill = source)) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(
+    title = "Skill Frequency by Data Source",
+    x = "Skill",
+    y = "Number of Job Postings"
+  )
+```
+
+## Analysis
+
+-   What are the most common required skills?
+
+Let's look at the top 5 skills from the Builtin and Kaggle data sets:
+
+```{r}
+builtin_top5 <- source_skill_counts |> 
+  filter(source == "builtin") |>
+  arrange(desc(n)) |>
+  rename("count" = n) |>
+  slice_head(n = 5)
+
+kaggle_top5 <- source_skill_counts |> 
+  filter(source == "kaggle") |>
+  arrange(desc(n)) |>
+  rename("count" = n) |>
+  slice_head(n = 5)
+
+library(gt)
+
+
+builtin_top5 |>
+  select(skill, count) |>
+  gt() |>
+  cols_label(
+    skill = "Skill",
+    count = "Count"
+  ) |>
+  tab_header(title = "Top 5 Skills - Builtin Data Set")
+
+
+kaggle_top5 |>
+  select(skill, count) |>
+  gt() |>
+  cols_label(
+    skill = "Skill",
+    count = "Count"
+  ) |>
+  tab_header(title = "Top 5 Skills - Kaggle Data Set")
+
+
+```
+
+For the Builtin data set, Python, SQL, and R are the top software skills. Cloud skills are also in demand.
+
+It's worth noting that this data set is much smaller and all the job posts are in the greater NYC area, and salaries will reflect that.
+
+Kaggle shows Python, Excel, and SQL as the top 3 software skills. R is excluded from this data set, so it's not a good metric of how commonly R is a required skill. AWS cloud skills are also in demand, as is Apache Spark.
+
+Looking at the full list, Tableau shows up quite early. I don't know if it's fair to call Tableau a skill as it is the data analysis equivalent of self-checkout.
+
+## Salary Analysis
+
+Above, we have salary by title. In general, data scientists and data engineers make more than analysts.
+
+Here, we'll look at salary by state, just to see the impact of that and benchmark for later observations.
+
+```{r}
+all_jobs_state <- all_jobs_salary |>
+    separate(col = location, into = c("city", "state"), sep = ",") |>
+  mutate(across(c(city, state), str_trim)) |> 
+  mutate(state = if_else(state == "Los Angeles", "CA", state))
+
+
+#benchmarking the salaries for later observations
+
+summary(all_jobs_state$avg_salary_k)
+
+avg_state <- all_jobs_state |>
+  filter(source == "kaggle") |>
+  group_by(state) |>
+  summarise(
+    avg_salary = round(mean(avg_salary_k, na.rm = TRUE)),
+    job_count = n()
+  ) |>
+  arrange(desc(avg_salary))
+
+#top 10 states by salary
+
+avg_state |>
+  slice_head(n = 10) |>
+  select(state, avg_salary, job_count) |>
+  gt() |>
+  cols_label(
+    state = "State",
+    avg_salary = "Average Salary (Thousands)",
+    job_count = "Number of Jobs"
+  ) |>
+  tab_header(title = "Top 10 States by Average Salary")
+
+
+```
+
+### Skills and Salary
+
+Here, we take the job skills table and join it with the KG skills table based on index. Then, we create an average salary per skill column. This is to see which skill is associated with the highest average salary.
+
+```{r}
+#making a slight tweak to this code so I can keep the index column and join
+#with the kg data set for average salary
+
+job_skills_2 <- kg |> 
+  mutate(job_id = index) |> 
+  select(job_id, all_of(skill_cols)) |> 
+  pivot_longer(
+    cols = -job_id,
+    names_to = "skill",
+    values_to = "present"
+  ) |> 
+  filter(present == 1) |> 
+  select(job_id, skill)
+
+#left join with KG to get the salary
+job_skills_salary <- job_skills_2 |>
+    left_join(kg |> select(index, avg_salary_k), by = c("job_id" = "index"))
+
+#Averaging the salary
+salary_skill <- job_skills_salary |>
+  group_by(skill) |>
+  summarise(
+    avg_salary = round(mean(avg_salary_k, na.rm = TRUE)),
+    job_count = n()) |>
+      arrange(desc(avg_salary))
+
+
+salary_skill |> 
+    ggplot(aes(x = reorder(skill, -avg_salary), y = avg_salary, fill = skill)) +
+    geom_col() +
+    geom_text(aes(label = paste0(avg_salary, "k")), vjust = -0.5, size = 3) +
+    scale_fill_viridis_d(option = "magma") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    guides(fill = "none") +
+    labs(title = "Average Salary by Skill", x = "Skill", y = "Average Salary (k)")
+```
+
+In general, it seems like more niche skills are more highly valued. Scikit and Keras are Python libraries. Flink = Apache Flink. SAS ranks fifth – this data set is a little older and SAS is likely not as popular as it used to be.
+
+### Are certain skills associated with lower salaries?
+
+How does the average salary for each skill compare to the median salary?
+
+```{r}
+all_jobs_salary |> summarise(mean(avg_salary_k))
+all_jobs_salary
+
+#the average salary for this data set is ~101K
+
+salary_skill |> 
+  mutate("difference" = avg_salary - 101) |>
+  mutate("percentage" = round(difference/101,2)) |>
+  select(skill, avg_salary, difference, percentage) |>
+  gt() |>
+  cols_label(
+    skill = "Skill",
+    avg_salary = "Mean Salary (K)",
+    difference = "Diff from Mean Salary (K)",
+    percentage = "% Diff from Mean Salary"
+  ) |>
+  tab_header(title = "How Much Are Skills Worth?")
+  
+```
+
+Excel is the #2 skills, but it's assocated with a lower salary. Can we conclude that learning Excel will drop your salary down by two grand? Probably not. But it's a more accessible skill, and may be associated with less intense/specialized jobs. Tableau is also fairly accessible, as is Google Analytics.
+
+### Skills and Title
+
+What (if anything) does title mean? Are certain skills associated with a data scientist/analyst/engineer vs an analyst? On average, what is the pay differential between these titles?
+
+Let's look at titles and skill counts together.
+
+This requires me to pivot something longer
+
+```{r}
+#This is a data set that keeps everything and pivots the skills
+kg_long <- kg |>
+    pivot_longer(
+        cols = python:google_an,
+        names_to = "skill",
+        values_to = "present"
+    ) |>
+    filter(present == 1) |>
+    select(index:age, job_title_sim:degree, skill)
+
+kg_skills_pivot <- kg_long |>
+  select(job_title_sim, skill)
+
+#changing the title "data analitics" to just analyst, so it matches (it honestly seems like an error)
+kg_skills_pivot <- kg_skills_pivot |>
+    mutate(job_title_sim = if_else(job_title_sim == "data analitics", "analyst",
+                                   job_title_sim))
+
+  
+
+kg_skills_agg <- kg_skills_pivot |> 
+    group_by(job_title_sim, skill) |> 
+    summarise("skill_count" = n(), .groups = "drop")
+
+#Let's look at analyst, data engineer, and data scientist
+
+kg_skills_agg |> filter(job_title_sim == "analyst") |>
+  arrange(desc(skill_count)) |>
+   select(skill, skill_count) |>
+  gt() |>
+  cols_label(
+    skill = "Skill",
+    skill_count = "Count"
+  ) |>
+  tab_header(title = "Most Common Analyst Skills")
+
+
+kg_skills_agg |> filter(job_title_sim == "data scientist") |>
+  arrange(desc(skill_count)) |>
+   select(skill, skill_count) |>
+  gt() |>
+  cols_label(
+    skill = "Skill",
+    skill_count = "Count"
+  ) |>
+  tab_header(title = "Most Common Data Scientist Skills")
+
+
+kg_skills_agg |> filter(job_title_sim == "data engineer") |>
+  arrange(desc(skill_count)) |>
+   select(skill, skill_count) |>
+  gt() |>
+  cols_label(
+    skill = "Skill",
+    skill_count = "Count"
+  ) |>
+  tab_header(title = "Most Common Data Scientist Skills")
+
+#analyst skills bar chart
+kg_skills_agg |> 
+  filter(job_title_sim == "analyst") |>
+  ggplot(aes(x = reorder(skill, -skill_count), y = skill_count, fill = skill)) +
+  geom_col() +
+  geom_text(aes(label = skill_count), vjust = -0.5, size = 3) +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(fill = "none") +
+  labs(title = "Most Common Data Analyst Skills", x = "Skill", y = "Count")
+
+#scientist
+kg_skills_agg |> 
+  filter(job_title_sim == "data scientist") |>
+  ggplot(aes(x = reorder(skill, -skill_count), y = skill_count, fill = skill)) +
+  geom_col() +
+  geom_text(aes(label = skill_count), vjust = -0.5, size = 3) +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(fill = "none") +
+  labs(title = "Most Common Data Scientist Skills", x = "Skill", y = "Count")
+
+#engineer
+kg_skills_agg |> 
+  filter(job_title_sim == "data engineer") |>
+  ggplot(aes(x = reorder(skill, -skill_count), y = skill_count, fill = skill)) +
+  geom_col() +
+  geom_text(aes(label = skill_count), vjust = -0.5, size = 3) +
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(fill = "none") +
+  labs(title = "Most Common Data Engineer Skills", x = "Skill", y = "Count")
+
+```
+
+Analysts seem more likely to need excel, SQL, and Tableau before python, whereas engineers and scientists generally need SQL, Python, and cloud skills. Analysts need more visualization tools like Tableau, BI, and google analytics.
+
+### What fields pay the most?
+
+Is understanding a particular area (e.g. healthcare or finance) correlated with a higher salary?
+
+```{r}
+
+#all jobs salary
+by_industry <- all_jobs_salary |> 
+  filter(industry != "-1") |> 
+  group_by(industry) |>
+  summarise(
+    avg_salary = round(mean(avg_salary_k, na.rm = TRUE), 0),
+    job_count = n()
+  ) |>
+  arrange(desc(avg_salary))
+
+#there are a lot of one-offs in here, so I am going to get rid of anything with a count of less than 2
+
+by_industry_multi <- by_industry |>
+  filter(job_count > 1)
+
+#Let's look at the top 10 and bottom 10
+
+by_industry_multi |>
+  slice_head(n = 10) |>
+  select(industry, avg_salary) |>
+  gt() |>
+  cols_label(
+    industry = "Industry",
+    avg_salary = "Average Salary (Thousands)"
+  ) |>
+  tab_header(title = "Top Average Salaries by Industry")
+
+```
+
+Unsurprisingly, 3/10 are in finance (brokerage, financial analytics, investment banking). Others are in technology generally, along with media.
+
+```{r}
+by_industry_multi |>
+  slice_tail(n = 10) |>
+  select(industry, avg_salary) |>
+  gt() |>
+  cols_label(
+    industry = "Industry",
+    avg_salary = "Average Salary (Thousands)"
+  ) |>
+  tab_header(title = "Bottom Average Salaries by Industry")
+```
+
+Some of these are industries where salaries tend to be on the lower side, like food & beverage and social services. Construction and architecture are similar fields.
+
+Gambling is interesting – it may offer higher salaries now, given the growth of gambling apps.
+
+### What field has the most jobs?
+
+If we define valuable as "most opportunities":
+
+```{r}
+by_industry_multi |>
+  arrange(desc(job_count)) |>
+  slice_head(n = 10) |>
+  select(industry, job_count) |>
+  gt() |>
+  cols_label(
+    industry = "Industry",
+    job_count = "Number of Jobs"
+  ) |>
+  tab_header(title = "Most Common Industries")
+
+
+by_industry_multi |>
+    arrange(desc(job_count)) |>
+    slice_head(n = 10) |>
+    ggplot(aes(x = reorder(industry, -job_count), y = job_count, fill = industry)) +
+    geom_col() +
+    geom_text(aes(label = job_count), vjust = -0.2) +
+    scale_fill_viridis_d(option = "magma") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    guides(fill = "none") +
+    labs(title = "Most Common Industries for Data Science", x = "Industry", y = "Number of Jobs")
+```
+
+-   What is the average/median years of experience requirement? Do certain fields tend to require more years of experience? How much is each YOE worth? Is it linear?
