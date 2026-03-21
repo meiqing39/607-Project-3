@@ -36,7 +36,6 @@ colnames(kg)
 
 ```
 
-
 **Examine Data structure and initial inspection**
 
 ```{r}
@@ -243,7 +242,6 @@ ggplot(all_jobs_salary, aes(x = avg_salary_k)) +
 
 The histogram shows that most job postings fall within the mid-range salary band, with a concentration between approximately 70K and 130K. Higher salary values are less frequent and may represent senior or specialized roles.
 
-
 ## **Check salary Outliers**
 
 ```{r}
@@ -256,7 +254,6 @@ ggplot(all_jobs_salary, aes(y = avg_salary_k)) +
 ```
 
 **##Interpretation: The Average Salary is 70k to 125k after observing the boxplot**
-
 
 ### **Check job title and salary**
 
@@ -306,3 +303,244 @@ source_skill_counts |>
     y = "Number of Job Postings"
   )
 ```
+## Modeling
+
+### Data Prep
+```{r}
+final_wide <- all_jobs %>%
+  left_join(all_job_skills, by = "job_id") %>%
+  mutate(has_skill = 1L) %>%
+  pivot_wider(
+    names_from = skill,
+    values_from = has_skill,
+    values_fill = list(has_skill = 0L),
+    values_fn = list(has_skill = max)
+  )
+```
+
+### Building LM Function
+```{r}
+run_univariate_lm <- function(df,
+                              y = "avg_salary_k",
+                              x_cols = 12:35,
+                              na_action = na.exclude,
+                              assign_to_global = FALSE,
+                              sanitize_names = FALSE,
+                              coerce_binary_chars = TRUE) {
+  # Basic checks
+  if (!y %in% names(df)) {
+    stop(sprintf("Response column '%s' not found in data.", y))
+  }
+  if (any(x_cols < 1 | x_cols > ncol(df))) {
+    stop("x_cols index range is out of bounds for the provided data frame.")
+  }
+  
+  # Optionally sanitize names to syntactic R names
+  if (sanitize_names) {
+    old_names <- names(df)
+    names(df) <- make.unique(make.names(names(df)))
+    if (!y %in% names(df)) {
+      stop("After sanitizing names, the response column was renamed; set y to the new name.")
+    }
+    message("Column names were sanitized via make.names() + make.unique().")
+  }
+  
+  # Ensure response is numeric (lm works best this way)
+  if (!is.numeric(df[[y]])) {
+    suppressWarnings({
+      df[[y]] <- as.numeric(df[[y]])
+    })
+    if (anyNA(df[[y]])) {
+      warning(sprintf("Coercing '%s' to numeric introduced NAs; check your response column.", y))
+    }
+  }
+  
+  results <- list()
+  
+  for (i in x_cols) {
+    xname <- names(df)[i]
+    xvec <- df[[xname]]
+    
+    # Skip problematic types (list/data.frame columns)
+    if (is.list(xvec) && !is.atomic(xvec)) {
+      message(sprintf("Skipping '%s': predictor is a list/data-frame column.", xname))
+      next
+    }
+    
+    # Optional coercion for binary character columns
+    if (coerce_binary_chars && is.character(xvec)) {
+      vals <- unique(na.omit(xvec))
+      if (all(vals %in% c("0", "1"))) {
+        xvec_num <- as.numeric(xvec)
+        df[[xname]] <- xvec_num
+      }
+    }
+    
+    # Skip non-variant predictors
+    if (all(is.na(xvec)) || length(unique(na.omit(xvec))) < 2) {
+      message(sprintf("Skipping '%s': predictor has <2 unique non-NA values.", xname))
+      next
+    }
+    
+    # Build formula with backticks to handle non-syntactic names safely
+    f <- as.formula(sprintf("`%s` ~ `%s`", y, xname))
+    
+    # Fit model (try-catch for edge cases)
+    fit <- try(lm(f, data = df, na.action = na_action), silent = TRUE)
+    if (inherits(fit, "try-error")) {
+      message(sprintf("Skipping '%s': lm() failed (%s).", xname, as.character(fit)))
+      next
+    }
+    
+    # Store with name "lm_<column_name>"
+    obj_name <- paste0("lm_", xname)
+    results[[obj_name]] <- fit
+    
+    # Print summary
+    cat("\n", strrep("=", 72), "\n", sep = "")
+    cat(sprintf("Model: %s\nFormula: %s\n", obj_name, deparse(f)))
+    cat(strrep("-", 72), "\n", sep = "")
+    print(summary(fit))
+  }
+  
+  # Optionally assign each model to the global environment
+  if (assign_to_global && length(results) > 0) {
+    list2env(results, envir = .GlobalEnv)
+    message("Models assigned to .GlobalEnv with names 'lm_<column_name>'.")
+  }
+  
+  invisible(results)
+}
+```
+
+### Running LM Function
+```{r}
+models <- run_univariate_lm(final_wide)
+```
+
+### Building Multi LM Function
+```{r}
+run_multivar_lm <- function(df,
+                            y = "avg_salary_k",
+                            x_cols = 12:35,
+                            na_action = na.exclude,
+                            sanitize_names = FALSE,
+                            coerce_binary_chars = TRUE,
+                            standardize = FALSE) {
+  # --- Basic checks ---
+  if (!y %in% names(df)) {
+    stop(sprintf("Response column '%s' not found in data.", y))
+  }
+  if (any(x_cols < 1 | x_cols > ncol(df))) {
+    stop("x_cols index range is out of bounds for the provided data frame.")
+  }
+  
+  # --- Optionally sanitize column names ---
+  if (sanitize_names) {
+    names(df) <- make.unique(make.names(names(df)))
+    if (!y %in% names(df)) {
+      stop("After sanitizing names, the response column was renamed; update 'y' to the new name.")
+    }
+    message("Column names were sanitized via make.names() + make.unique().")
+  }
+  
+  # --- Ensure response is numeric ---
+  if (!is.numeric(df[[y]])) {
+    suppressWarnings({
+      df[[y]] <- as.numeric(df[[y]])
+    })
+    if (anyNA(df[[y]])) {
+      warning(sprintf("Coercing '%s' to numeric introduced NAs; check your response column.", y))
+    }
+  }
+  
+  # --- Collect candidate predictors ---
+  xnames <- names(df)[x_cols]
+  
+  # --- Filter: skip problematic types, coerce binary chars, skip constants ---
+  keep <- logical(length(xnames))
+  for (i in seq_along(xnames)) {
+    xn <- xnames[i]
+    xv <- df[[xn]]
+    
+    # Skip list/data-frame columns
+    if (is.list(xv) && !is.atomic(xv)) {
+      message(sprintf("Skipping '%s': predictor is a list/data-frame column.", xn))
+      keep[i] <- FALSE
+      next
+    }
+    
+    # Optional coercion: "0"/"1" -> numeric
+    if (coerce_binary_chars && is.character(xv)) {
+      vals <- unique(na.omit(xv))
+      if (length(vals) > 0 && all(vals %in% c("0", "1"))) {
+        df[[xn]] <- as.numeric(xv)
+        xv <- df[[xn]]
+      }
+    }
+    
+    # Skip non-variant predictors (all NA or <2 unique non-NA values)
+    if (all(is.na(xv)) || length(unique(na.omit(xv))) < 2) {
+      message(sprintf("Skipping '%s': predictor has <2 unique non-NA values.", xn))
+      keep[i] <- FALSE
+      next
+    }
+    
+    keep[i] <- TRUE
+  }
+  xnames <- xnames[keep]
+  
+  if (length(xnames) == 0) {
+    stop("No valid predictors found in the selected range after filtering.")
+  }
+  
+  # --- Optional standardization of numeric predictors ---
+  if (standardize) {
+    for (xn in xnames) {
+      if (is.numeric(df[[xn]])) {
+        df[[xn]] <- as.numeric(scale(df[[xn]]))
+      }
+    }
+    message("Numeric predictors standardized (mean=0, sd=1).")
+  }
+  
+  # --- Build safe formula with backticks ---
+  backtick <- function(nm) paste0("`", nm, "`")
+  rhs <- paste(vapply(xnames, backtick, ""), collapse = " + ")
+  f <- as.formula(paste(backtick(y), "~", rhs))
+  
+  # --- Fit model ---
+  fit <- lm(f, data = df, na.action = na_action)
+  
+  # --- Print concise diagnostics ---
+  cat("\n", strrep("=", 72), "\n", sep = "")
+  cat("Multivariable Linear Model\n")
+  cat(sprintf("Formula: %s\n", deparse(f)))
+  cat(strrep("-", 72), "\n", sep = "")
+  s <- summary(fit)
+  print(s)
+  
+  # Extra diagnostics
+  cat(strrep("-", 72), "\n", sep = "")
+  cat(sprintf("Observations used: %d\n", s$df[1] + s$df[2]))
+  cat(sprintf("Residual df: %d\n", s$df[2]))
+  cat(sprintf("Residual SE: %.3f\n", s$sigma))
+  cat(sprintf("Multiple R-squared: %.5f\n", s$r.squared))
+  cat(sprintf("Adjusted R-squared: %.5f\n", s$adj.r.squared))
+  suppressWarnings({
+    aic_val <- try(AIC(fit), silent = TRUE)
+    if (!inherits(aic_val, "try-error")) {
+      cat(sprintf("AIC: %.3f\n", aic_val))
+    }
+  })
+  
+  invisible(fit)
+}
+```
+
+### Running Multi LM Function
+```{r}
+mmodel <- run_multivar_lm(final_wide)
+```
+
+
