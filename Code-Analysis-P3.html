@@ -69,7 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Code-Analysis-P3_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Code-Analysis-P3_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Code-Analysis-P3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Code-Analysis-P3_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Code-Analysis-P3_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -109,6 +109,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.5.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'ggplot2' was built under R version 4.5.2</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
@@ -127,21 +130,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Warning: package 'dplyr' was built under R version 4.5.2</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'stringr' was built under R version 4.5.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.5.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.2.0     ✔ readr     2.1.6
+✔ dplyr     1.2.0     ✔ readr     2.2.0
 ✔ forcats   1.0.1     ✔ stringr   1.6.0
 ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.2
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
 ✔ purrr     1.2.1     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'janitor'
@@ -150,8 +159,8 @@ The following objects are masked from 'package:stats':
 
     chisq.test, fisher.test</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#builtin raw data load</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>builtin_jobs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/RamdeGuibril/builtin_jobs.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#builtin raw data load</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>builtin_jobs <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/RamdeGuibril/builtin_jobs.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 11 Columns: 7
 ── Column specification ────────────────────────────────────────────────────────
@@ -162,7 +171,7 @@ dbl (1): job_id
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>builtin_job_skills <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/RamdeGuibril/builtin_job_skills.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>builtin_job_skills <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/RamdeGuibril/builtin_job_skills.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 46 Columns: 2
 ── Column specification ────────────────────────────────────────────────────────
@@ -173,13 +182,13 @@ dbl (1): job_id
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Kaggle data load###</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>kaggle_url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>kg <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(kaggle_url, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()   <span class="co"># &lt;- renames by snake_case format, removes special character</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Ensures consistent and reproducible references to variable by using janitor function clean_names()</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>kg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Kaggle data load###</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>kaggle_url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/meiqing39/607-Project-3/refs/heads/main/data_cleaned_2021.csv"</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>kg <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(kaggle_url, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()   <span class="co"># &lt;- renames by snake_case format, removes special character</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Ensures consistent and reproducible references to variable by using janitor function clean_names()</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>kg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 742 × 42
    index job_title  salary_estimate job_description rating company_name location
@@ -202,7 +211,7 @@ dbl (1): job_id
 #   company_txt &lt;chr&gt;, job_location &lt;chr&gt;, age &lt;dbl&gt;, python &lt;dbl&gt;,
 #   spark &lt;dbl&gt;, aws &lt;dbl&gt;, excel &lt;dbl&gt;, sql &lt;dbl&gt;, sas &lt;dbl&gt;, keras &lt;dbl&gt;, …</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "index"              "job_title"          "salary_estimate"   
  [4] "job_description"    "rating"             "company_name"      
@@ -219,11 +228,11 @@ dbl (1): job_id
 [37] "flink"              "mongo"              "google_an"         
 [40] "job_title_sim"      "seniority_by_title" "degree"            </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(10)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(10)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Examine Data structure and initial inspection</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 742
 Columns: 42
@@ -272,7 +281,7 @@ $ degree             &lt;chr&gt; "M", "M", "M", "na", "na", "na", "na", "M", "P"
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     index        job_title         salary_estimate    job_description   
  Min.   :  0.0   Length:742         Length:742         Length:742        
@@ -354,7 +363,7 @@ $ degree             &lt;chr&gt; "M", "M", "M", "na", "na", "na", "na", "M", "P"
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(kg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 742  42</code></pre>
 </div>
@@ -379,21 +388,21 @@ $ degree             &lt;chr&gt; "M", "M", "M", "na", "na", "na", "na", "M", "P"
 <h2 class="anchored" data-anchor-id="re-coding-placeholder-values-as-missing"><strong>#Re-coding placeholder values as missing</strong></h2>
 <p><strong>Standardize Kaggle jobs</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>kaggle_jobs <span class="ot">&lt;-</span> kg <span class="sc">|&gt;</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">job_id =</span> <span class="fu">paste0</span>(<span class="st">"kg_"</span>, <span class="fu">row_number</span>()),</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">source =</span> <span class="st">"kaggle"</span>,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    job_title,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">company =</span> company_name,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    location,</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    industry,</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    avg_salary_k,</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">salary_min_k =</span> lower_salary,</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">salary_max_k =</span> upper_salary,</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    job_description,</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">job_url =</span> <span class="cn">NA_character_</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>kaggle_jobs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>kaggle_jobs <span class="ot">&lt;-</span> kg <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">job_id =</span> <span class="fu">paste0</span>(<span class="st">"kg_"</span>, <span class="fu">row_number</span>()),</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">source =</span> <span class="st">"kaggle"</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    job_title,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">company =</span> company_name,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    location,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    industry,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    avg_salary_k,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">salary_min_k =</span> lower_salary,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">salary_max_k =</span> upper_salary,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    job_description,</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">job_url =</span> <span class="cn">NA_character_</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>kaggle_jobs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 742 × 11
    job_id source job_title   company location industry avg_salary_k salary_min_k
@@ -416,21 +425,21 @@ $ degree             &lt;chr&gt; "M", "M", "M", "na", "na", "na", "na", "M", "P"
 <section id="standardize-builtin-jobs" class="level2">
 <h2 class="anchored" data-anchor-id="standardize-builtin-jobs">Standardize BuiltIn jobs</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>builtin_jobs_clean <span class="ot">&lt;-</span> builtin_jobs <span class="sc">|&gt;</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">job_id =</span> <span class="fu">paste0</span>(<span class="st">"bi_"</span>, <span class="fu">row_number</span>()),</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">source =</span> <span class="st">"builtin"</span>,</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    job_title,</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    company,</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">location =</span> <span class="cn">NA_character_</span>,</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    industry,</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_salary_k =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">salary_min_k =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">salary_max_k =</span> <span class="cn">NA_real_</span>,</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    job_description,</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>    job_url</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>builtin_jobs_clean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>builtin_jobs_clean <span class="ot">&lt;-</span> builtin_jobs <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">job_id =</span> <span class="fu">paste0</span>(<span class="st">"bi_"</span>, <span class="fu">row_number</span>()),</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">source =</span> <span class="st">"builtin"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    job_title,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    company,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">location =</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    industry,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_salary_k =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">salary_min_k =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">salary_max_k =</span> <span class="cn">NA_real_</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    job_description,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    job_url</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>builtin_jobs_clean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 11 × 11
    job_id source  job_title  company location industry avg_salary_k salary_min_k
@@ -453,8 +462,8 @@ $ degree             &lt;chr&gt; "M", "M", "M", "na", "na", "na", "na", "M", "P"
 <section id="merge-job-postings" class="level2">
 <h2 class="anchored" data-anchor-id="merge-job-postings">Merge Job postings</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>all_jobs <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(kaggle_jobs, builtin_jobs_clean)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>all_jobs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>all_jobs <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(kaggle_jobs, builtin_jobs_clean)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>all_jobs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 753 × 11
    job_id source job_title   company location industry avg_salary_k salary_min_k
@@ -481,51 +490,51 @@ $ degree             &lt;chr&gt; "M", "M", "M", "na", "na", "na", "na", "M", "P"
 <section id="merge-kaggle-skills" class="level2">
 <h2 class="anchored" data-anchor-id="merge-kaggle-skills"><strong>Merge kaggle skills</strong></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>skill_cols <span class="ot">&lt;-</span> <span class="fu">names</span>(kg)[</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(kg) <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"python"</span>,<span class="st">"sql"</span>,<span class="st">"aws"</span>,<span class="st">"excel"</span>,<span class="st">"tableau"</span>,<span class="st">"spark"</span>,</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sas"</span>,<span class="st">"pytorch"</span>,<span class="st">"keras"</span>,<span class="st">"scikit"</span>,<span class="st">"tensor"</span>,</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hadoop"</span>,<span class="st">"flink"</span>,<span class="st">"mongo"</span>,<span class="st">"google_an"</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>kaggle_job_skills <span class="ot">&lt;-</span> kg <span class="sc">|&gt;</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">job_id =</span> <span class="fu">paste0</span>(<span class="st">"kg_"</span>, <span class="fu">row_number</span>())) <span class="sc">|&gt;</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(job_id, <span class="fu">all_of</span>(skill_cols)) <span class="sc">|&gt;</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>job_id,</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"skill"</span>,</span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"present"</span></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(present <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(job_id, skill)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>skill_cols <span class="ot">&lt;-</span> <span class="fu">names</span>(kg)[</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(kg) <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"python"</span>,<span class="st">"sql"</span>,<span class="st">"aws"</span>,<span class="st">"excel"</span>,<span class="st">"tableau"</span>,<span class="st">"spark"</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sas"</span>,<span class="st">"pytorch"</span>,<span class="st">"keras"</span>,<span class="st">"scikit"</span>,<span class="st">"tensor"</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hadoop"</span>,<span class="st">"flink"</span>,<span class="st">"mongo"</span>,<span class="st">"google_an"</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>kaggle_job_skills <span class="ot">&lt;-</span> kg <span class="sc">|&gt;</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">job_id =</span> <span class="fu">paste0</span>(<span class="st">"kg_"</span>, <span class="fu">row_number</span>())) <span class="sc">|&gt;</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(job_id, <span class="fu">all_of</span>(skill_cols)) <span class="sc">|&gt;</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>job_id,</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"skill"</span>,</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"present"</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(present <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(job_id, skill)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>#Summarizing the skills we can see that python, excel and sql are the most required skill in the job market</p>
 <p><strong>#BuiltIn skills</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>skill_keywords <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"python"</span>,<span class="st">"r"</span>,<span class="st">"sql"</span>,<span class="st">"scala"</span>,<span class="st">"java"</span>,</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pytorch"</span>,<span class="st">"tensorflow"</span>,<span class="st">"scikit"</span>,<span class="st">"sklearn"</span>,<span class="st">"xgboost"</span>,</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"aws"</span>,<span class="st">"azure"</span>,<span class="st">"gcp"</span>,<span class="st">"databricks"</span>,<span class="st">"snowflake"</span>,<span class="st">"spark"</span>,</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tableau"</span>,<span class="st">"power bi"</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>builtin_job_skills_clean <span class="ot">&lt;-</span> builtin_jobs <span class="sc">|&gt;</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">job_id =</span> <span class="fu">paste0</span>(<span class="st">"bi_"</span>, <span class="fu">row_number</span>())) <span class="sc">|&gt;</span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(job_id, <span class="at">text =</span> <span class="fu">tolower</span>(<span class="fu">coalesce</span>(job_description, <span class="st">""</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">nzchar</span>(text)) <span class="sc">|&gt;</span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crossing</span>(<span class="at">skill =</span> skill_keywords) <span class="sc">|&gt;</span></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rx =</span> <span class="fu">paste0</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>, skill, <span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(text, <span class="fu">regex</span>(rx, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(job_id, skill)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>skill_keywords <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"python"</span>,<span class="st">"r"</span>,<span class="st">"sql"</span>,<span class="st">"scala"</span>,<span class="st">"java"</span>,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pytorch"</span>,<span class="st">"tensorflow"</span>,<span class="st">"scikit"</span>,<span class="st">"sklearn"</span>,<span class="st">"xgboost"</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"aws"</span>,<span class="st">"azure"</span>,<span class="st">"gcp"</span>,<span class="st">"databricks"</span>,<span class="st">"snowflake"</span>,<span class="st">"spark"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tableau"</span>,<span class="st">"power bi"</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>builtin_job_skills_clean <span class="ot">&lt;-</span> builtin_jobs <span class="sc">|&gt;</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">job_id =</span> <span class="fu">paste0</span>(<span class="st">"bi_"</span>, <span class="fu">row_number</span>())) <span class="sc">|&gt;</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(job_id, <span class="at">text =</span> <span class="fu">tolower</span>(<span class="fu">coalesce</span>(job_description, <span class="st">""</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">nzchar</span>(text)) <span class="sc">|&gt;</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crossing</span>(<span class="at">skill =</span> skill_keywords) <span class="sc">|&gt;</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rx =</span> <span class="fu">paste0</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>, skill, <span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(text, <span class="fu">regex</span>(rx, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(job_id, skill)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>####Merge all skills</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>all_job_skills <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  kaggle_job_skills,</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  builtin_job_skills_clean</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>all_job_skills</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>all_job_skills <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  kaggle_job_skills,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  builtin_job_skills_clean</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>all_job_skills</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2,142 × 2
    job_id skill  
@@ -545,7 +554,7 @@ $ degree             &lt;chr&gt; "M", "M", "M", "na", "na", "na", "na", "M", "P"
 </div>
 <p><strong>##Checks</strong></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(all_jobs, source)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(all_jobs, source)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   source      n
@@ -553,7 +562,7 @@ $ degree             &lt;chr&gt; "M", "M", "M", "na", "na", "na", "na", "M", "P"
 1 builtin    11
 2 kaggle    742</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(all_job_skills, skill, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(all_job_skills, skill, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 23 × 2
    skill       n
@@ -570,7 +579,7 @@ $ degree             &lt;chr&gt; "M", "M", "M", "na", "na", "na", "na", "M", "P"
 10 scikit     55
 # ℹ 13 more rows</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(all_jobs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(all_jobs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 753
 Columns: 11
@@ -586,7 +595,7 @@ $ salary_max_k    &lt;dbl&gt; 91, 112, 90, 97, 143, 119, 93, 142, 84, 160, 201, 
 $ job_description &lt;chr&gt; "Data Scientist\nLocation: Albuquerque, NM\nEducation …
 $ job_url         &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(all_job_skills)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(all_job_skills)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 2,142
 Columns: 2
@@ -596,18 +605,18 @@ $ skill  &lt;chr&gt; "python", "excel", "sas", "tableau", "python", "python", "s
 </div>
 <p>##Kaggle Frequency of skills in job postings</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>skill_counts <span class="ot">&lt;-</span> kaggle_job_skills <span class="sc">|&gt;</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(skill, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(skill_counts, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(skill, n), <span class="at">y =</span> n, <span class="at">fill =</span> skill )) <span class="sc">+</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Frequency of Skills in Job Postings"</span>,</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Skill"</span>,</span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of postings"</span></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>skill_counts <span class="ot">&lt;-</span> kaggle_job_skills <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(skill, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(skill_counts, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(skill, n), <span class="at">y =</span> n, <span class="at">fill =</span> skill )) <span class="sc">+</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Frequency of Skills in Job Postings"</span>,</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Skill"</span>,</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of postings"</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -618,18 +627,18 @@ $ skill  &lt;chr&gt; "python", "excel", "sas", "tableau", "python", "python", "s
 </div>
 <p>##BuiltIn frequency of skills in job postings</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>skill_counts <span class="ot">&lt;-</span> builtin_job_skills_clean <span class="sc">|&gt;</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(skill, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(skill_counts, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(skill, n), <span class="at">y =</span> n, <span class="at">fill =</span> skill )) <span class="sc">+</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Frequency of Skills in Job Postings"</span>,</span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Skill"</span>,</span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of postings"</span></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>skill_counts <span class="ot">&lt;-</span> builtin_job_skills_clean <span class="sc">|&gt;</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(skill, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(skill_counts, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(skill, n), <span class="at">y =</span> n, <span class="at">fill =</span> skill )) <span class="sc">+</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Frequency of Skills in Job Postings"</span>,</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Skill"</span>,</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of postings"</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -642,16 +651,16 @@ $ skill  &lt;chr&gt; "python", "excel", "sas", "tableau", "python", "python", "s
 <section id="number-of-jobs-posting-vs-average-salary" class="level2">
 <h2 class="anchored" data-anchor-id="number-of-jobs-posting-vs-average-salary"><strong>Number of jobs posting vs Average Salary</strong></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>all_jobs_salary <span class="ot">&lt;-</span> all_jobs <span class="sc">|&gt;</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(avg_salary_k))</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_jobs_salary, <span class="fu">aes</span>(<span class="at">x =</span> avg_salary_k)) <span class="sc">+</span></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Average Salary"</span>,</span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average Salary (K)"</span>,</span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Job Postings"</span></span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>all_jobs_salary <span class="ot">&lt;-</span> all_jobs <span class="sc">|&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(avg_salary_k))</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_jobs_salary, <span class="fu">aes</span>(<span class="at">x =</span> avg_salary_k)) <span class="sc">+</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Average Salary"</span>,</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average Salary (K)"</span>,</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Job Postings"</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -660,18 +669,18 @@ $ skill  &lt;chr&gt; "python", "excel", "sas", "tableau", "python", "python", "s
 </div>
 </div>
 </div>
-<p><strong>##Interpretation</strong></p>
+<p><strong>##Interpretation of the above plot</strong></p>
 <p>The histogram shows that most job postings fall within the mid-range salary band, with a concentration between approximately 70K and 130K. Higher salary values are less frequent and may represent senior or specialized roles.</p>
 </section>
 <section id="check-salary-outliers" class="level2">
 <h2 class="anchored" data-anchor-id="check-salary-outliers"><strong>Check salary Outliers</strong></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_jobs_salary, <span class="fu">aes</span>(<span class="at">y =</span> avg_salary_k)) <span class="sc">+</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Boxplot of Average Salary"</span>,</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Salary (K)"</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(all_jobs_salary, <span class="fu">aes</span>(<span class="at">y =</span> avg_salary_k)) <span class="sc">+</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Boxplot of Average Salary"</span>,</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Salary (K)"</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -680,31 +689,31 @@ $ skill  &lt;chr&gt; "python", "excel", "sas", "tableau", "python", "python", "s
 </div>
 </div>
 </div>
-<p>##The Average Salary is 70k to 125k after observing the boxplot</p>
+<p><strong>##Interpretation: The Average Salary is 70k to 125k after observing the boxplot</strong></p>
 <section id="check-job-title-and-salary" class="level3">
 <h3 class="anchored" data-anchor-id="check-job-title-and-salary"><strong>Check job title and salary</strong></h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>job_salary_summary <span class="ot">&lt;-</span> all_jobs_salary <span class="sc">|&gt;</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(job_title) <span class="sc">|&gt;</span></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_salary =</span> <span class="fu">mean</span>(avg_salary_k, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_salary =</span> <span class="fu">median</span>(avg_salary_k, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_salary))</span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>job_salary_summary <span class="sc">|&gt;</span></span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>( <span class="at">x =</span> <span class="fu">reorder</span>(job_title, mean_salary), <span class="at">y =</span> mean_salary, <span class="at">fill =</span> job_title)) <span class="sc">+</span></span>
-<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Average Salary for Job Title"</span>,</span>
-<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Job Title"</span>,</span>
-<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">" Average Salary (K)"</span></span>
-<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>job_salary_summary <span class="ot">&lt;-</span> all_jobs_salary <span class="sc">|&gt;</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(job_title) <span class="sc">|&gt;</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_salary =</span> <span class="fu">mean</span>(avg_salary_k, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_salary =</span> <span class="fu">median</span>(avg_salary_k, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_salary))</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>job_salary_summary <span class="sc">|&gt;</span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>( <span class="at">x =</span> <span class="fu">reorder</span>(job_title, mean_salary), <span class="at">y =</span> mean_salary, <span class="at">fill =</span> job_title)) <span class="sc">+</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Average Salary for Job Title"</span>,</span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Job Title"</span>,</span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">" Average Salary (K)"</span></span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -713,29 +722,1327 @@ $ skill  &lt;chr&gt; "python", "excel", "sas", "tableau", "python", "python", "s
 </div>
 </div>
 </div>
-<p>##To compare pay across roles, job postings were grouped by job title and summarized using average salary. Because many titles appeared only a few times, the analysis focused on titles with at least five postings. This provides a more stable comparison of salary levels across common job categories.</p>
+<p>##Interpretation: To compare pay across roles, job postings were grouped by job title and summarized using average salary. Because many titles appeared only a few times, the analysis focused on titles with at least five postings. This provides a more stable comparison of salary levels across common job categories.</p>
 <p>##Comparing kaggle vs BuiltIn skills</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>source_skill_counts <span class="ot">&lt;-</span> all_jobs <span class="sc">|&gt;</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(all_job_skills, <span class="at">by =</span> <span class="st">"job_id"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(skill)) <span class="sc">|&gt;</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(source, skill)</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>source_skill_counts <span class="sc">|&gt;</span></span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(skill, n), <span class="at">y =</span> n, <span class="at">fill =</span> source)) <span class="sc">+</span></span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Skill Frequency by Data Source"</span>,</span>
-<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Skill"</span>,</span>
-<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Job Postings"</span></span>
-<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>source_skill_counts <span class="ot">&lt;-</span> all_jobs <span class="sc">|&gt;</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(all_job_skills, <span class="at">by =</span> <span class="st">"job_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(skill)) <span class="sc">|&gt;</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(source, skill)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>source_skill_counts <span class="sc">|&gt;</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(skill, n), <span class="at">y =</span> n, <span class="at">fill =</span> source)) <span class="sc">+</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Skill Frequency by Data Source"</span>,</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Skill"</span>,</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Job Postings"</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="Code-Analysis-P3_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
+</div>
+</div>
+</section>
+</section>
+<section id="modeling" class="level2">
+<h2 class="anchored" data-anchor-id="modeling">Modeling</h2>
+<section id="data-prep" class="level3">
+<h3 class="anchored" data-anchor-id="data-prep">Data Prep</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>final_wide <span class="ot">&lt;-</span> all_jobs <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(all_job_skills, <span class="at">by =</span> <span class="st">"job_id"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">has_skill =</span> <span class="dv">1</span>L) <span class="sc">%&gt;%</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> skill,</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> has_skill,</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_fill =</span> <span class="fu">list</span>(<span class="at">has_skill =</span> <span class="dv">0</span>L),</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_fn =</span> <span class="fu">list</span>(<span class="at">has_skill =</span> max)</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Columns from the original all_jobs table (keep these)</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>orig_cols <span class="ot">&lt;-</span> <span class="fu">names</span>(all_jobs)</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Skill columns are all columns in final_wide that were *not* in all_jobs</span></span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>skill_cols <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(final_wide), orig_cols)</span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify skill columns that are all zeros (no presence across any job)</span></span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>zero_only <span class="ot">&lt;-</span> <span class="fu">vapply</span>(final_wide[skill_cols], <span class="cf">function</span>(x) {</span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># handle numeric/logical 0/1; coerce characters like "0"/"1" if needed</span></span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.character</span>(x)) x <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(x))</span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">logical</span>(<span class="dv">1</span>))</span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop unnecessary columns</span></span>
+<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a>final_wide_trim <span class="ot">&lt;-</span> final_wide <span class="sc">%&gt;%</span></span>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb53-27"><a href="#cb53-27" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span><span class="fu">any_of</span>(skill_cols[zero_only]),   <span class="co"># drop skills with only 0</span></span>
+<span id="cb53-28"><a href="#cb53-28" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span><span class="fu">any_of</span>(<span class="st">"NA"</span>)                     <span class="co"># drop the NA column</span></span>
+<span id="cb53-29"><a href="#cb53-29" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="building-lm-function" class="level3">
+<h3 class="anchored" data-anchor-id="building-lm-function">Building LM Function</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>run_univariate_lm <span class="ot">&lt;-</span> <span class="cf">function</span>(df,</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">y =</span> <span class="st">"avg_salary_k"</span>,</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">x_cols =</span> <span class="dv">12</span><span class="sc">:</span><span class="dv">34</span>,</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">na_action =</span> na.exclude,</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">assign_to_global =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sanitize_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">coerce_binary_chars =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Basic checks</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>y <span class="sc">%in%</span> <span class="fu">names</span>(df)) {</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="fu">sprintf</span>(<span class="st">"Response column '%s' not found in data."</span>, y))</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">any</span>(x_cols <span class="sc">&lt;</span> <span class="dv">1</span> <span class="sc">|</span> x_cols <span class="sc">&gt;</span> <span class="fu">ncol</span>(df))) {</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"x_cols index range is out of bounds for the provided data frame."</span>)</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Optionally sanitize names to syntactic R names</span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (sanitize_names) {</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>    old_names <span class="ot">&lt;-</span> <span class="fu">names</span>(df)</span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">make.unique</span>(<span class="fu">make.names</span>(<span class="fu">names</span>(df)))</span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>y <span class="sc">%in%</span> <span class="fu">names</span>(df)) {</span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stop</span>(<span class="st">"After sanitizing names, the response column was renamed; set y to the new name."</span>)</span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Column names were sanitized via make.names() + make.unique()."</span>)</span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ensure response is numeric (lm works best this way)</span></span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(df[[y]])) {</span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">suppressWarnings</span>({</span>
+<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a>      df[[y]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df[[y]])</span>
+<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">anyNA</span>(df[[y]])) {</span>
+<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">warning</span>(<span class="fu">sprintf</span>(<span class="st">"Coercing '%s' to numeric introduced NAs; check your response column."</span>, y))</span>
+<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-36"><a href="#cb54-36" aria-hidden="true" tabindex="-1"></a>  results <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb54-37"><a href="#cb54-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-38"><a href="#cb54-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> x_cols) {</span>
+<span id="cb54-39"><a href="#cb54-39" aria-hidden="true" tabindex="-1"></a>    xname <span class="ot">&lt;-</span> <span class="fu">names</span>(df)[i]</span>
+<span id="cb54-40"><a href="#cb54-40" aria-hidden="true" tabindex="-1"></a>    xvec <span class="ot">&lt;-</span> df[[xname]]</span>
+<span id="cb54-41"><a href="#cb54-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-42"><a href="#cb54-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Skip problematic types (list/data.frame columns)</span></span>
+<span id="cb54-43"><a href="#cb54-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.list</span>(xvec) <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.atomic</span>(xvec)) {</span>
+<span id="cb54-44"><a href="#cb54-44" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">sprintf</span>(<span class="st">"Skipping '%s': predictor is a list/data-frame column."</span>, xname))</span>
+<span id="cb54-45"><a href="#cb54-45" aria-hidden="true" tabindex="-1"></a>      <span class="cf">next</span></span>
+<span id="cb54-46"><a href="#cb54-46" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-47"><a href="#cb54-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-48"><a href="#cb54-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional coercion for binary character columns</span></span>
+<span id="cb54-49"><a href="#cb54-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (coerce_binary_chars <span class="sc">&amp;&amp;</span> <span class="fu">is.character</span>(xvec)) {</span>
+<span id="cb54-50"><a href="#cb54-50" aria-hidden="true" tabindex="-1"></a>      vals <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">na.omit</span>(xvec))</span>
+<span id="cb54-51"><a href="#cb54-51" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">all</span>(vals <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"1"</span>))) {</span>
+<span id="cb54-52"><a href="#cb54-52" aria-hidden="true" tabindex="-1"></a>        xvec_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(xvec)</span>
+<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a>        df[[xname]] <span class="ot">&lt;-</span> xvec_num</span>
+<span id="cb54-54"><a href="#cb54-54" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb54-55"><a href="#cb54-55" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-56"><a href="#cb54-56" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-57"><a href="#cb54-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Skip non-variant predictors</span></span>
+<span id="cb54-58"><a href="#cb54-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">all</span>(<span class="fu">is.na</span>(xvec)) <span class="sc">||</span> <span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">na.omit</span>(xvec))) <span class="sc">&lt;</span> <span class="dv">2</span>) {</span>
+<span id="cb54-59"><a href="#cb54-59" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">sprintf</span>(<span class="st">"Skipping '%s': predictor has &lt;2 unique non-NA values."</span>, xname))</span>
+<span id="cb54-60"><a href="#cb54-60" aria-hidden="true" tabindex="-1"></a>      <span class="cf">next</span></span>
+<span id="cb54-61"><a href="#cb54-61" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-62"><a href="#cb54-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-63"><a href="#cb54-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build formula with backticks to handle non-syntactic names safely</span></span>
+<span id="cb54-64"><a href="#cb54-64" aria-hidden="true" tabindex="-1"></a>    f <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">sprintf</span>(<span class="st">"`%s` ~ `%s`"</span>, y, xname))</span>
+<span id="cb54-65"><a href="#cb54-65" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-66"><a href="#cb54-66" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fit model (try-catch for edge cases)</span></span>
+<span id="cb54-67"><a href="#cb54-67" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">try</span>(<span class="fu">lm</span>(f, <span class="at">data =</span> df, <span class="at">na.action =</span> na_action), <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb54-68"><a href="#cb54-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">inherits</span>(fit, <span class="st">"try-error"</span>)) {</span>
+<span id="cb54-69"><a href="#cb54-69" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">sprintf</span>(<span class="st">"Skipping '%s': lm() failed (%s)."</span>, xname, <span class="fu">as.character</span>(fit)))</span>
+<span id="cb54-70"><a href="#cb54-70" aria-hidden="true" tabindex="-1"></a>      <span class="cf">next</span></span>
+<span id="cb54-71"><a href="#cb54-71" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb54-72"><a href="#cb54-72" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-73"><a href="#cb54-73" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store with name "lm_&lt;column_name&gt;"</span></span>
+<span id="cb54-74"><a href="#cb54-74" aria-hidden="true" tabindex="-1"></a>    obj_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"lm_"</span>, xname)</span>
+<span id="cb54-75"><a href="#cb54-75" aria-hidden="true" tabindex="-1"></a>    results[[obj_name]] <span class="ot">&lt;-</span> fit</span>
+<span id="cb54-76"><a href="#cb54-76" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb54-77"><a href="#cb54-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print summary</span></span>
+<span id="cb54-78"><a href="#cb54-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">strrep</span>(<span class="st">"="</span>, <span class="dv">72</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb54-79"><a href="#cb54-79" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Model: %s</span><span class="sc">\n</span><span class="st">Formula: %s</span><span class="sc">\n</span><span class="st">"</span>, obj_name, <span class="fu">deparse</span>(f)))</span>
+<span id="cb54-80"><a href="#cb54-80" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">strrep</span>(<span class="st">"-"</span>, <span class="dv">72</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb54-81"><a href="#cb54-81" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">summary</span>(fit))</span>
+<span id="cb54-82"><a href="#cb54-82" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb54-83"><a href="#cb54-83" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-84"><a href="#cb54-84" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Optionally assign each model to the global environment</span></span>
+<span id="cb54-85"><a href="#cb54-85" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (assign_to_global <span class="sc">&amp;&amp;</span> <span class="fu">length</span>(results) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb54-86"><a href="#cb54-86" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list2env</span>(results, <span class="at">envir =</span> .GlobalEnv)</span>
+<span id="cb54-87"><a href="#cb54-87" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Models assigned to .GlobalEnv with names 'lm_&lt;column_name&gt;'."</span>)</span>
+<span id="cb54-88"><a href="#cb54-88" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb54-89"><a href="#cb54-89" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-90"><a href="#cb54-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(results)</span>
+<span id="cb54-91"><a href="#cb54-91" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="running-lm-function" class="level3">
+<h3 class="anchored" data-anchor-id="running-lm-function">Running LM Function</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">run_univariate_lm</span>(final_wide_trim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+========================================================================
+Model: lm_python
+Formula: avg_salary_k ~ python
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-73.476 -25.976  -5.653  20.980 141.347 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   88.976      1.902  46.769   &lt;2e-16 ***
+python        23.677      2.617   9.046   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 35.59 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.09957,   Adjusted R-squared:  0.09836 
+F-statistic: 81.83 on 1 and 740 DF,  p-value: &lt; 2.2e-16
+
+
+========================================================================
+Model: lm_excel
+Formula: avg_salary_k ~ excel
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-83.397 -27.397  -5.321  19.679 149.679 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  104.321      1.988  52.467   &lt;2e-16 ***
+excel         -5.424      2.750  -1.973   0.0489 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.41 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.005231,  Adjusted R-squared:  0.003886 
+F-statistic: 3.891 on 1 and 740 DF,  p-value: 0.04892
+
+
+========================================================================
+Model: lm_sas
+Formula: avg_salary_k ~ sas
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-84.791 -27.601  -5.041  22.084 140.295 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  100.291      1.435  69.885  &lt; 2e-16 ***
+sas           13.413      4.812   2.788  0.00545 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.31 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.01039,   Adjusted R-squared:  0.009054 
+F-statistic:  7.77 on 1 and 740 DF,  p-value: 0.005447
+
+
+========================================================================
+Model: lm_tableau
+Formula: avg_salary_k ~ tableau
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-87.382 -26.382  -4.629  21.118 151.118 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  102.882      1.535  67.039   &lt;2e-16 ***
+tableau       -7.007      3.436  -2.039   0.0418 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.4 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.005588,  Adjusted R-squared:  0.004244 
+F-statistic: 4.158 on 1 and 740 DF,  p-value: 0.04179
+
+
+========================================================================
+Model: lm_spark
+Formula: avg_salary_k ~ spark
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-82.539 -27.414  -5.347  21.961 155.961 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   98.039      1.541  63.611  &lt; 2e-16 ***
+spark         15.308      3.249   4.712 2.93e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 36.96 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.02913,   Adjusted R-squared:  0.02782 
+F-statistic:  22.2 on 1 and 740 DF,  p-value: 2.929e-06
+
+
+========================================================================
+Model: lm_sql
+Formula: avg_salary_k ~ sql
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.907 -27.907  -4.058  20.942 152.593 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 101.4075     1.9714  51.440   &lt;2e-16 ***
+sql           0.1504     2.7547   0.055    0.956    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.51 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  4.03e-06,  Adjusted R-squared:  -0.001347 
+F-statistic: 0.002982 on 1 and 740 DF,  p-value: 0.9565
+
+
+========================================================================
+Model: lm_aws
+Formula: avg_salary_k ~ aws
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-82.378 -26.878  -5.878  22.122 156.122 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   97.878      1.553  63.030  &lt; 2e-16 ***
+aws           15.204      3.189   4.768 2.24e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 36.94 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.02981,   Adjusted R-squared:  0.0285 
+F-statistic: 22.74 on 1 and 740 DF,  p-value: 2.236e-06
+
+
+========================================================================
+Model: lm_mongo
+Formula: avg_salary_k ~ mongo
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.376 -27.376  -4.876  20.499 153.124 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  100.876      1.409  71.591   &lt;2e-16 ***
+mongo         12.205      6.310   1.934   0.0535 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.41 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.00503,   Adjusted R-squared:  0.003686 
+F-statistic: 3.741 on 1 and 740 DF,  p-value: 0.05346
+
+
+========================================================================
+Model: lm_pytorch
+Formula: avg_salary_k ~ pytorch
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-85.59 -28.09  -3.84  21.29 152.91 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.090      1.413  71.532   &lt;2e-16 ***
+pytorch        7.513      6.164   1.219    0.223    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.47 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.002003,  Adjusted R-squared:  0.0006547 
+F-statistic: 1.485 on 1 and 740 DF,  p-value: 0.2233
+
+
+========================================================================
+Model: lm_tensor
+Formula: avg_salary_k ~ tensor
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-84.019 -26.894  -4.769  20.662 154.481 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   99.519      1.430  69.576  &lt; 2e-16 ***
+tensor        20.259      4.592   4.412 1.18e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.02 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.02563,   Adjusted R-squared:  0.02431 
+F-statistic: 19.47 on 1 and 740 DF,  p-value: 1.176e-05
+
+
+========================================================================
+Model: lm_hadoop
+Formula: avg_salary_k ~ hadoop
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-84.13 -27.13  -4.43  20.87 154.37 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   99.629      1.500  66.440  &lt; 2e-16 ***
+hadoop        11.100      3.668   3.026  0.00256 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.28 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.01222,   Adjusted R-squared:  0.01089 
+F-statistic: 9.158 on 1 and 740 DF,  p-value: 0.002563
+
+
+========================================================================
+Model: lm_keras
+Formula: avg_salary_k ~ keras
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.111 -27.611  -4.111  20.389 153.389 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  100.611      1.395  72.109   &lt;2e-16 ***
+keras         22.355      7.058   3.167   0.0016 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.26 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.01338,   Adjusted R-squared:  0.01204 
+F-statistic: 10.03 on 1 and 740 DF,  p-value: 0.001601
+
+
+========================================================================
+Model: lm_scikit
+Formula: avg_salary_k ~ scikit
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-84.114 -26.614  -4.464  20.386 154.386 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   99.614      1.407  70.795  &lt; 2e-16 ***
+scikit        25.701      5.216   4.927 1.03e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 36.91 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.03177,   Adjusted R-squared:  0.03046 
+F-statistic: 24.28 on 1 and 740 DF,  p-value: 1.029e-06
+
+
+========================================================================
+Model: lm_flink
+Formula: avg_salary_k ~ flink
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.609 -27.984  -4.609  21.266 152.891 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.109      1.381  73.203   &lt;2e-16 ***
+flink         27.891     11.898   2.344   0.0193 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.37 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.007372,  Adjusted R-squared:  0.00603 
+F-statistic: 5.496 on 1 and 740 DF,  p-value: 0.01933
+
+
+========================================================================
+Model: lm_google_an
+Formula: avg_salary_k ~ google_an
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-86.625 -26.625  -4.375  21.125 151.875 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   102.12       1.38   74.03  &lt; 2e-16 ***
+google_an     -33.95      10.04   -3.38 0.000763 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.22 on 740 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.0152,    Adjusted R-squared:  0.01387 
+F-statistic: 11.42 on 1 and 740 DF,  p-value: 0.0007626
+
+
+========================================================================
+Model: lm_r
+Formula: avg_salary_k ~ r
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.985 -27.985  -3.985  21.015 152.515 
+
+Coefficients: (1 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.485      1.376   73.75   &lt;2e-16 ***
+r                 NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.48 on 741 degrees of freedom
+  (11 observations deleted due to missingness)
+
+
+========================================================================
+Model: lm_scala
+Formula: avg_salary_k ~ scala
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.985 -27.985  -3.985  21.015 152.515 
+
+Coefficients: (1 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.485      1.376   73.75   &lt;2e-16 ***
+scala             NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.48 on 741 degrees of freedom
+  (11 observations deleted due to missingness)
+
+
+========================================================================
+Model: lm_databricks
+Formula: avg_salary_k ~ databricks
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.985 -27.985  -3.985  21.015 152.515 
+
+Coefficients: (1 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.485      1.376   73.75   &lt;2e-16 ***
+databricks        NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.48 on 741 degrees of freedom
+  (11 observations deleted due to missingness)
+
+
+========================================================================
+Model: lm_gcp
+Formula: avg_salary_k ~ gcp
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.985 -27.985  -3.985  21.015 152.515 
+
+Coefficients: (1 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.485      1.376   73.75   &lt;2e-16 ***
+gcp               NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.48 on 741 degrees of freedom
+  (11 observations deleted due to missingness)
+
+
+========================================================================
+Model: lm_snowflake
+Formula: avg_salary_k ~ snowflake
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.985 -27.985  -3.985  21.015 152.515 
+
+Coefficients: (1 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.485      1.376   73.75   &lt;2e-16 ***
+snowflake         NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.48 on 741 degrees of freedom
+  (11 observations deleted due to missingness)
+
+
+========================================================================
+Model: lm_tensorflow
+Formula: avg_salary_k ~ tensorflow
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.985 -27.985  -3.985  21.015 152.515 
+
+Coefficients: (1 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.485      1.376   73.75   &lt;2e-16 ***
+tensorflow        NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.48 on 741 degrees of freedom
+  (11 observations deleted due to missingness)
+
+
+========================================================================
+Model: lm_xgboost
+Formula: avg_salary_k ~ xgboost
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.985 -27.985  -3.985  21.015 152.515 
+
+Coefficients: (1 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.485      1.376   73.75   &lt;2e-16 ***
+xgboost           NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.48 on 741 degrees of freedom
+  (11 observations deleted due to missingness)
+
+
+========================================================================
+Model: lm_azure
+Formula: avg_salary_k ~ azure
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-85.985 -27.985  -3.985  21.015 152.515 
+
+Coefficients: (1 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  101.485      1.376   73.75   &lt;2e-16 ***
+azure             NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 37.48 on 741 degrees of freedom
+  (11 observations deleted due to missingness)</code></pre>
+</div>
+</div>
+</section>
+<section id="building-multi-lm-function" class="level3">
+<h3 class="anchored" data-anchor-id="building-multi-lm-function">Building Multi LM Function</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>run_multivar_lm <span class="ot">&lt;-</span> <span class="cf">function</span>(df,</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> <span class="st">"avg_salary_k"</span>,</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">x_cols =</span> <span class="dv">12</span><span class="sc">:</span><span class="dv">34</span>,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">na_action =</span> na.exclude,</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sanitize_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">coerce_binary_chars =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">standardize =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Basic checks ---</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>y <span class="sc">%in%</span> <span class="fu">names</span>(df)) {</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="fu">sprintf</span>(<span class="st">"Response column '%s' not found in data."</span>, y))</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">any</span>(x_cols <span class="sc">&lt;</span> <span class="dv">1</span> <span class="sc">|</span> x_cols <span class="sc">&gt;</span> <span class="fu">ncol</span>(df))) {</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"x_cols index range is out of bounds for the provided data frame."</span>)</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Optionally sanitize column names ---</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (sanitize_names) {</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">make.unique</span>(<span class="fu">make.names</span>(<span class="fu">names</span>(df)))</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>y <span class="sc">%in%</span> <span class="fu">names</span>(df)) {</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stop</span>(<span class="st">"After sanitizing names, the response column was renamed; update 'y' to the new name."</span>)</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Column names were sanitized via make.names() + make.unique()."</span>)</span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Ensure response is numeric ---</span></span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(df[[y]])) {</span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">suppressWarnings</span>({</span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>      df[[y]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df[[y]])</span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">anyNA</span>(df[[y]])) {</span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">warning</span>(<span class="fu">sprintf</span>(<span class="st">"Coercing '%s' to numeric introduced NAs; check your response column."</span>, y))</span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Collect candidate predictors ---</span></span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>  xnames <span class="ot">&lt;-</span> <span class="fu">names</span>(df)[x_cols]</span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Filter: skip problematic types, coerce binary chars, skip constants ---</span></span>
+<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>  keep <span class="ot">&lt;-</span> <span class="fu">logical</span>(<span class="fu">length</span>(xnames))</span>
+<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(xnames)) {</span>
+<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a>    xn <span class="ot">&lt;-</span> xnames[i]</span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a>    xv <span class="ot">&lt;-</span> df[[xn]]</span>
+<span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Skip list/data-frame columns</span></span>
+<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.list</span>(xv) <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.atomic</span>(xv)) {</span>
+<span id="cb57-46"><a href="#cb57-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">sprintf</span>(<span class="st">"Skipping '%s': predictor is a list/data-frame column."</span>, xn))</span>
+<span id="cb57-47"><a href="#cb57-47" aria-hidden="true" tabindex="-1"></a>      keep[i] <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb57-48"><a href="#cb57-48" aria-hidden="true" tabindex="-1"></a>      <span class="cf">next</span></span>
+<span id="cb57-49"><a href="#cb57-49" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb57-50"><a href="#cb57-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-51"><a href="#cb57-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional coercion: "0"/"1" -&gt; numeric</span></span>
+<span id="cb57-52"><a href="#cb57-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (coerce_binary_chars <span class="sc">&amp;&amp;</span> <span class="fu">is.character</span>(xv)) {</span>
+<span id="cb57-53"><a href="#cb57-53" aria-hidden="true" tabindex="-1"></a>      vals <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">na.omit</span>(xv))</span>
+<span id="cb57-54"><a href="#cb57-54" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">length</span>(vals) <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> <span class="fu">all</span>(vals <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"1"</span>))) {</span>
+<span id="cb57-55"><a href="#cb57-55" aria-hidden="true" tabindex="-1"></a>        df[[xn]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(xv)</span>
+<span id="cb57-56"><a href="#cb57-56" aria-hidden="true" tabindex="-1"></a>        xv <span class="ot">&lt;-</span> df[[xn]]</span>
+<span id="cb57-57"><a href="#cb57-57" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb57-58"><a href="#cb57-58" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb57-59"><a href="#cb57-59" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-60"><a href="#cb57-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Skip non-variant predictors (all NA or &lt;2 unique non-NA values)</span></span>
+<span id="cb57-61"><a href="#cb57-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">all</span>(<span class="fu">is.na</span>(xv)) <span class="sc">||</span> <span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">na.omit</span>(xv))) <span class="sc">&lt;</span> <span class="dv">2</span>) {</span>
+<span id="cb57-62"><a href="#cb57-62" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">sprintf</span>(<span class="st">"Skipping '%s': predictor has &lt;2 unique non-NA values."</span>, xn))</span>
+<span id="cb57-63"><a href="#cb57-63" aria-hidden="true" tabindex="-1"></a>      keep[i] <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb57-64"><a href="#cb57-64" aria-hidden="true" tabindex="-1"></a>      <span class="cf">next</span></span>
+<span id="cb57-65"><a href="#cb57-65" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb57-66"><a href="#cb57-66" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-67"><a href="#cb57-67" aria-hidden="true" tabindex="-1"></a>    keep[i] <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb57-68"><a href="#cb57-68" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb57-69"><a href="#cb57-69" aria-hidden="true" tabindex="-1"></a>  xnames <span class="ot">&lt;-</span> xnames[keep]</span>
+<span id="cb57-70"><a href="#cb57-70" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-71"><a href="#cb57-71" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(xnames) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb57-72"><a href="#cb57-72" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"No valid predictors found in the selected range after filtering."</span>)</span>
+<span id="cb57-73"><a href="#cb57-73" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb57-74"><a href="#cb57-74" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-75"><a href="#cb57-75" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Optional standardization of numeric predictors ---</span></span>
+<span id="cb57-76"><a href="#cb57-76" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (standardize) {</span>
+<span id="cb57-77"><a href="#cb57-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (xn <span class="cf">in</span> xnames) {</span>
+<span id="cb57-78"><a href="#cb57-78" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">is.numeric</span>(df[[xn]])) {</span>
+<span id="cb57-79"><a href="#cb57-79" aria-hidden="true" tabindex="-1"></a>        df[[xn]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(df[[xn]]))</span>
+<span id="cb57-80"><a href="#cb57-80" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb57-81"><a href="#cb57-81" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb57-82"><a href="#cb57-82" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Numeric predictors standardized (mean=0, sd=1)."</span>)</span>
+<span id="cb57-83"><a href="#cb57-83" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb57-84"><a href="#cb57-84" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-85"><a href="#cb57-85" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Build safe formula with backticks ---</span></span>
+<span id="cb57-86"><a href="#cb57-86" aria-hidden="true" tabindex="-1"></a>  backtick <span class="ot">&lt;-</span> <span class="cf">function</span>(nm) <span class="fu">paste0</span>(<span class="st">"`"</span>, nm, <span class="st">"`"</span>)</span>
+<span id="cb57-87"><a href="#cb57-87" aria-hidden="true" tabindex="-1"></a>  rhs <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">vapply</span>(xnames, backtick, <span class="st">""</span>), <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb57-88"><a href="#cb57-88" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste</span>(<span class="fu">backtick</span>(y), <span class="st">"~"</span>, rhs))</span>
+<span id="cb57-89"><a href="#cb57-89" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-90"><a href="#cb57-90" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Fit model ---</span></span>
+<span id="cb57-91"><a href="#cb57-91" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(f, <span class="at">data =</span> df, <span class="at">na.action =</span> na_action)</span>
+<span id="cb57-92"><a href="#cb57-92" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-93"><a href="#cb57-93" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Print concise diagnostics ---</span></span>
+<span id="cb57-94"><a href="#cb57-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">strrep</span>(<span class="st">"="</span>, <span class="dv">72</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb57-95"><a href="#cb57-95" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Multivariable Linear Model</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb57-96"><a href="#cb57-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Formula: %s</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">deparse</span>(f)))</span>
+<span id="cb57-97"><a href="#cb57-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">strrep</span>(<span class="st">"-"</span>, <span class="dv">72</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb57-98"><a href="#cb57-98" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit)</span>
+<span id="cb57-99"><a href="#cb57-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(s)</span>
+<span id="cb57-100"><a href="#cb57-100" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-101"><a href="#cb57-101" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extra diagnostics</span></span>
+<span id="cb57-102"><a href="#cb57-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">strrep</span>(<span class="st">"-"</span>, <span class="dv">72</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb57-103"><a href="#cb57-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Observations used: %d</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>df[<span class="dv">1</span>] <span class="sc">+</span> s<span class="sc">$</span>df[<span class="dv">2</span>]))</span>
+<span id="cb57-104"><a href="#cb57-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Residual df: %d</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>df[<span class="dv">2</span>]))</span>
+<span id="cb57-105"><a href="#cb57-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Residual SE: %.3f</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>sigma))</span>
+<span id="cb57-106"><a href="#cb57-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Multiple R-squared: %.5f</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>r.squared))</span>
+<span id="cb57-107"><a href="#cb57-107" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Adjusted R-squared: %.5f</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>adj.r.squared))</span>
+<span id="cb57-108"><a href="#cb57-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>({</span>
+<span id="cb57-109"><a href="#cb57-109" aria-hidden="true" tabindex="-1"></a>    aic_val <span class="ot">&lt;-</span> <span class="fu">try</span>(<span class="fu">AIC</span>(fit), <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb57-110"><a href="#cb57-110" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">inherits</span>(aic_val, <span class="st">"try-error"</span>)) {</span>
+<span id="cb57-111"><a href="#cb57-111" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"AIC: %.3f</span><span class="sc">\n</span><span class="st">"</span>, aic_val))</span>
+<span id="cb57-112"><a href="#cb57-112" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb57-113"><a href="#cb57-113" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb57-114"><a href="#cb57-114" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-115"><a href="#cb57-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(fit)</span>
+<span id="cb57-116"><a href="#cb57-116" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="running-multi-lm-function" class="level3">
+<h3 class="anchored" data-anchor-id="running-multi-lm-function">Running Multi LM Function</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>mmodel <span class="ot">&lt;-</span> <span class="fu">run_multivar_lm</span>(final_wide_trim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+========================================================================
+Multivariable Linear Model
+Formula: avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+ Formula:     aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+ Formula:     flink + google_an + r + scala + databricks + gcp + snowflake + 
+ Formula:     tensorflow + xgboost + azure
+------------------------------------------------------------------------
+
+Call:
+lm(formula = f, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-74.135 -23.389  -6.199  19.860 125.237 
+
+Coefficients: (8 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   92.184      2.443  37.739  &lt; 2e-16 ***
+python        22.627      2.928   7.729 3.63e-14 ***
+excel         -2.549      2.579  -0.988 0.323313    
+sas           18.499      4.675   3.957 8.35e-05 ***
+tableau       -7.601      3.515  -2.162 0.030920 *  
+spark         -1.442      4.071  -0.354 0.723305    
+sql          -10.613      3.060  -3.468 0.000555 ***
+aws            9.877      3.258   3.031 0.002522 ** 
+mongo          7.776      6.173   1.260 0.208133    
+pytorch      -18.653      7.584  -2.459 0.014149 *  
+tensor        15.412      6.682   2.306 0.021371 *  
+hadoop         4.712      4.207   1.120 0.263017    
+keras         -3.025      8.340  -0.363 0.716898    
+scikit        11.969      6.222   1.924 0.054778 .  
+flink          4.294     11.486   0.374 0.708604    
+google_an    -28.312      9.386  -3.016 0.002646 ** 
+r                 NA         NA      NA       NA    
+scala             NA         NA      NA       NA    
+databricks        NA         NA      NA       NA    
+gcp               NA         NA      NA       NA    
+snowflake         NA         NA      NA       NA    
+tensorflow        NA         NA      NA       NA    
+xgboost           NA         NA      NA       NA    
+azure             NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 34.21 on 726 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.1841,    Adjusted R-squared:  0.1672 
+F-statistic: 10.92 on 15 and 726 DF,  p-value: &lt; 2.2e-16
+
+------------------------------------------------------------------------
+Observations used: 742
+Residual df: 726
+Residual SE: 34.206
+Multiple R-squared: 0.18407
+Adjusted R-squared: 0.16721
+AIC: 7365.593</code></pre>
+</div>
+</div>
+</section>
+<section id="building-backward-stepwise-regression-function" class="level3">
+<h3 class="anchored" data-anchor-id="building-backward-stepwise-regression-function">Building Backward Stepwise Regression Function</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>run_stepwise_backward_lm <span class="ot">&lt;-</span> <span class="cf">function</span>(df,</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">y =</span> <span class="st">"avg_salary_k"</span>,</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">x_cols =</span> <span class="dv">12</span><span class="sc">:</span><span class="dv">34</span>,</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">na_action =</span> na.exclude,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">sanitize_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">coerce_binary_chars =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">standardize =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">criterion =</span> <span class="fu">c</span>(<span class="st">"AIC"</span>, <span class="st">"BIC"</span>),</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">trace =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>  criterion <span class="ot">&lt;-</span> <span class="fu">match.arg</span>(criterion)</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Basic checks ---</span></span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>y <span class="sc">%in%</span> <span class="fu">names</span>(df)) {</span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="fu">sprintf</span>(<span class="st">"Response column '%s' not found in data."</span>, y))</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">any</span>(x_cols <span class="sc">&lt;</span> <span class="dv">1</span> <span class="sc">|</span> x_cols <span class="sc">&gt;</span> <span class="fu">ncol</span>(df))) {</span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"x_cols index range is out of bounds for the provided data frame."</span>)</span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Optionally sanitize column names ---</span></span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (sanitize_names) {</span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="fu">make.unique</span>(<span class="fu">make.names</span>(<span class="fu">names</span>(df)))</span>
+<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span>y <span class="sc">%in%</span> <span class="fu">names</span>(df)) {</span>
+<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stop</span>(<span class="st">"After sanitizing names, the response column was renamed; update 'y' to the new name."</span>)</span>
+<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Column names were sanitized via make.names() + make.unique()."</span>)</span>
+<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Ensure response is numeric ---</span></span>
+<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(df[[y]])) {</span>
+<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">suppressWarnings</span>({</span>
+<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>      df[[y]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(df[[y]])</span>
+<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">anyNA</span>(df[[y]])) {</span>
+<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">warning</span>(<span class="fu">sprintf</span>(<span class="st">"Coercing '%s' to numeric introduced NAs; check your response column."</span>, y))</span>
+<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-39"><a href="#cb60-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Collect candidate predictors ---</span></span>
+<span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a>  xnames <span class="ot">&lt;-</span> <span class="fu">names</span>(df)[x_cols]</span>
+<span id="cb60-41"><a href="#cb60-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-42"><a href="#cb60-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Filter: skip problematic types, coerce binary chars, skip constants ---</span></span>
+<span id="cb60-43"><a href="#cb60-43" aria-hidden="true" tabindex="-1"></a>  keep <span class="ot">&lt;-</span> <span class="fu">logical</span>(<span class="fu">length</span>(xnames))</span>
+<span id="cb60-44"><a href="#cb60-44" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(xnames)) {</span>
+<span id="cb60-45"><a href="#cb60-45" aria-hidden="true" tabindex="-1"></a>    xn <span class="ot">&lt;-</span> xnames[i]</span>
+<span id="cb60-46"><a href="#cb60-46" aria-hidden="true" tabindex="-1"></a>    xv <span class="ot">&lt;-</span> df[[xn]]</span>
+<span id="cb60-47"><a href="#cb60-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb60-48"><a href="#cb60-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Skip list/data-frame columns</span></span>
+<span id="cb60-49"><a href="#cb60-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.list</span>(xv) <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.atomic</span>(xv)) {</span>
+<span id="cb60-50"><a href="#cb60-50" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">sprintf</span>(<span class="st">"Skipping '%s': predictor is a list/data-frame column."</span>, xn))</span>
+<span id="cb60-51"><a href="#cb60-51" aria-hidden="true" tabindex="-1"></a>      keep[i] <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb60-52"><a href="#cb60-52" aria-hidden="true" tabindex="-1"></a>      <span class="cf">next</span></span>
+<span id="cb60-53"><a href="#cb60-53" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb60-54"><a href="#cb60-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb60-55"><a href="#cb60-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optional coercion: "0"/"1" -&gt; numeric</span></span>
+<span id="cb60-56"><a href="#cb60-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (coerce_binary_chars <span class="sc">&amp;&amp;</span> <span class="fu">is.character</span>(xv)) {</span>
+<span id="cb60-57"><a href="#cb60-57" aria-hidden="true" tabindex="-1"></a>      vals <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">na.omit</span>(xv))</span>
+<span id="cb60-58"><a href="#cb60-58" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">length</span>(vals) <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> <span class="fu">all</span>(vals <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"1"</span>))) {</span>
+<span id="cb60-59"><a href="#cb60-59" aria-hidden="true" tabindex="-1"></a>        df[[xn]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(xv)</span>
+<span id="cb60-60"><a href="#cb60-60" aria-hidden="true" tabindex="-1"></a>        xv <span class="ot">&lt;-</span> df[[xn]]</span>
+<span id="cb60-61"><a href="#cb60-61" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb60-62"><a href="#cb60-62" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb60-63"><a href="#cb60-63" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb60-64"><a href="#cb60-64" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Skip non-variant predictors (all NA or &lt;2 unique non-NA values)</span></span>
+<span id="cb60-65"><a href="#cb60-65" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">all</span>(<span class="fu">is.na</span>(xv)) <span class="sc">||</span> <span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">na.omit</span>(xv))) <span class="sc">&lt;</span> <span class="dv">2</span>) {</span>
+<span id="cb60-66"><a href="#cb60-66" aria-hidden="true" tabindex="-1"></a>      <span class="fu">message</span>(<span class="fu">sprintf</span>(<span class="st">"Skipping '%s': predictor has &lt;2 unique non-NA values."</span>, xn))</span>
+<span id="cb60-67"><a href="#cb60-67" aria-hidden="true" tabindex="-1"></a>      keep[i] <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb60-68"><a href="#cb60-68" aria-hidden="true" tabindex="-1"></a>      <span class="cf">next</span></span>
+<span id="cb60-69"><a href="#cb60-69" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb60-70"><a href="#cb60-70" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb60-71"><a href="#cb60-71" aria-hidden="true" tabindex="-1"></a>    keep[i] <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb60-72"><a href="#cb60-72" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb60-73"><a href="#cb60-73" aria-hidden="true" tabindex="-1"></a>  xnames <span class="ot">&lt;-</span> xnames[keep]</span>
+<span id="cb60-74"><a href="#cb60-74" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-75"><a href="#cb60-75" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(xnames) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb60-76"><a href="#cb60-76" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"No valid predictors found in the selected range after filtering."</span>)</span>
+<span id="cb60-77"><a href="#cb60-77" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb60-78"><a href="#cb60-78" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-79"><a href="#cb60-79" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Optional standardization of numeric predictors ---</span></span>
+<span id="cb60-80"><a href="#cb60-80" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (standardize) {</span>
+<span id="cb60-81"><a href="#cb60-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (xn <span class="cf">in</span> xnames) {</span>
+<span id="cb60-82"><a href="#cb60-82" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">is.numeric</span>(df[[xn]])) {</span>
+<span id="cb60-83"><a href="#cb60-83" aria-hidden="true" tabindex="-1"></a>        df[[xn]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(df[[xn]]))</span>
+<span id="cb60-84"><a href="#cb60-84" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb60-85"><a href="#cb60-85" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb60-86"><a href="#cb60-86" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Numeric predictors standardized (mean=0, sd=1)."</span>)</span>
+<span id="cb60-87"><a href="#cb60-87" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb60-88"><a href="#cb60-88" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-89"><a href="#cb60-89" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Build safe formula with backticks ---</span></span>
+<span id="cb60-90"><a href="#cb60-90" aria-hidden="true" tabindex="-1"></a>  backtick <span class="ot">&lt;-</span> <span class="cf">function</span>(nm) <span class="fu">paste0</span>(<span class="st">"`"</span>, nm, <span class="st">"`"</span>)</span>
+<span id="cb60-91"><a href="#cb60-91" aria-hidden="true" tabindex="-1"></a>  rhs <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">vapply</span>(xnames, backtick, <span class="st">""</span>), <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb60-92"><a href="#cb60-92" aria-hidden="true" tabindex="-1"></a>  f_full <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste</span>(<span class="fu">backtick</span>(y), <span class="st">"~"</span>, rhs))</span>
+<span id="cb60-93"><a href="#cb60-93" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-94"><a href="#cb60-94" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Fit full model ---</span></span>
+<span id="cb60-95"><a href="#cb60-95" aria-hidden="true" tabindex="-1"></a>  fit_full <span class="ot">&lt;-</span> <span class="fu">lm</span>(f_full, <span class="at">data =</span> df, <span class="at">na.action =</span> na_action)</span>
+<span id="cb60-96"><a href="#cb60-96" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-97"><a href="#cb60-97" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Choose penalty k (AIC vs BIC) ---</span></span>
+<span id="cb60-98"><a href="#cb60-98" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(fit_full)  <span class="co"># number of observations actually used</span></span>
+<span id="cb60-99"><a href="#cb60-99" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="cf">if</span> (criterion <span class="sc">==</span> <span class="st">"AIC"</span>) <span class="dv">2</span> <span class="cf">else</span> <span class="fu">log</span>(n)</span>
+<span id="cb60-100"><a href="#cb60-100" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-101"><a href="#cb60-101" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Backward stepwise using stats::step ---</span></span>
+<span id="cb60-102"><a href="#cb60-102" aria-hidden="true" tabindex="-1"></a>  fit_step <span class="ot">&lt;-</span> <span class="fu">step</span>(fit_full,</span>
+<span id="cb60-103"><a href="#cb60-103" aria-hidden="true" tabindex="-1"></a>                   <span class="at">direction =</span> <span class="st">"backward"</span>,</span>
+<span id="cb60-104"><a href="#cb60-104" aria-hidden="true" tabindex="-1"></a>                   <span class="at">trace =</span> <span class="fu">as.integer</span>(trace),</span>
+<span id="cb60-105"><a href="#cb60-105" aria-hidden="true" tabindex="-1"></a>                   <span class="at">k =</span> k)</span>
+<span id="cb60-106"><a href="#cb60-106" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-107"><a href="#cb60-107" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Print concise diagnostics for the final selected model ---</span></span>
+<span id="cb60-108"><a href="#cb60-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">strrep</span>(<span class="st">"="</span>, <span class="dv">72</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb60-109"><a href="#cb60-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Backward Stepwise Linear Model (criterion: %s, k = %.3f)</span><span class="sc">\n</span><span class="st">"</span>, criterion, k))</span>
+<span id="cb60-110"><a href="#cb60-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Final Formula: %s</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">deparse</span>(<span class="fu">formula</span>(fit_step))))</span>
+<span id="cb60-111"><a href="#cb60-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">strrep</span>(<span class="st">"-"</span>, <span class="dv">72</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb60-112"><a href="#cb60-112" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-113"><a href="#cb60-113" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit_step)</span>
+<span id="cb60-114"><a href="#cb60-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(s)</span>
+<span id="cb60-115"><a href="#cb60-115" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-116"><a href="#cb60-116" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Which predictors were selected?</span></span>
+<span id="cb60-117"><a href="#cb60-117" aria-hidden="true" tabindex="-1"></a>  selected <span class="ot">&lt;-</span> <span class="fu">attr</span>(<span class="fu">terms</span>(fit_step), <span class="st">"term.labels"</span>)</span>
+<span id="cb60-118"><a href="#cb60-118" aria-hidden="true" tabindex="-1"></a>  dropped  <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(xnames, selected)</span>
+<span id="cb60-119"><a href="#cb60-119" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-120"><a href="#cb60-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">strrep</span>(<span class="st">"-"</span>, <span class="dv">72</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb60-121"><a href="#cb60-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Selected predictors:</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-122"><a href="#cb60-122" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(selected) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb60-123"><a href="#cb60-123" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">" - "</span>, selected), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-124"><a href="#cb60-124" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb60-125"><a href="#cb60-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">" (none; intercept-only model)</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-126"><a href="#cb60-126" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb60-127"><a href="#cb60-127" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-128"><a href="#cb60-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Dropped predictors:</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-129"><a href="#cb60-129" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(dropped) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb60-130"><a href="#cb60-130" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">" - "</span>, dropped), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-131"><a href="#cb60-131" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb60-132"><a href="#cb60-132" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">" (none dropped)</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb60-133"><a href="#cb60-133" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb60-134"><a href="#cb60-134" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-135"><a href="#cb60-135" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extra metrics</span></span>
+<span id="cb60-136"><a href="#cb60-136" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">strrep</span>(<span class="st">"-"</span>, <span class="dv">72</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb60-137"><a href="#cb60-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Observations used: %d</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>df[<span class="dv">1</span>] <span class="sc">+</span> s<span class="sc">$</span>df[<span class="dv">2</span>]))</span>
+<span id="cb60-138"><a href="#cb60-138" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Residual df: %d</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>df[<span class="dv">2</span>]))</span>
+<span id="cb60-139"><a href="#cb60-139" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Residual SE: %.3f</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>sigma))</span>
+<span id="cb60-140"><a href="#cb60-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Multiple R-squared: %.5f</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>r.squared))</span>
+<span id="cb60-141"><a href="#cb60-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Adjusted R-squared: %.5f</span><span class="sc">\n</span><span class="st">"</span>, s<span class="sc">$</span>adj.r.squared))</span>
+<span id="cb60-142"><a href="#cb60-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"%s: %.3f</span><span class="sc">\n</span><span class="st">"</span>, criterion, <span class="fu">AIC</span>(fit_step) <span class="sc">+</span> (k <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="fu">length</span>(<span class="fu">coef</span>(fit_step))))</span>
+<span id="cb60-143"><a href="#cb60-143" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Note: AIC() returns AIC with k = 2. For BIC, we report adjusted by (k-2)*p.</span></span>
+<span id="cb60-144"><a href="#cb60-144" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb60-145"><a href="#cb60-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(fit_step)</span>
+<span id="cb60-146"><a href="#cb60-146" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="running-backward-stepwise-regression-function" class="level3">
+<h3 class="anchored" data-anchor-id="running-backward-stepwise-regression-function">Running Backward Stepwise Regression Function</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>stepmodel <span class="ot">&lt;-</span> <span class="fu">run_stepwise_backward_lm</span>(final_wide_trim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=5257.89
+avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+    aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+    flink + google_an + r + scala + databricks + gcp + snowflake + 
+    tensorflow + xgboost + azure
+
+
+Step:  AIC=5257.89
+avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+    aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+    flink + google_an + r + scala + databricks + gcp + snowflake + 
+    tensorflow + xgboost
+
+
+Step:  AIC=5257.89
+avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+    aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+    flink + google_an + r + scala + databricks + gcp + snowflake + 
+    tensorflow
+
+
+Step:  AIC=5257.89
+avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+    aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+    flink + google_an + r + scala + databricks + gcp + snowflake
+
+
+Step:  AIC=5257.89
+avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+    aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+    flink + google_an + r + scala + databricks + gcp
+
+
+Step:  AIC=5257.89
+avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+    aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+    flink + google_an + r + scala + databricks
+
+
+Step:  AIC=5257.89
+avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+    aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+    flink + google_an + r + scala
+
+
+Step:  AIC=5257.89
+avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+    aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+    flink + google_an + r
+
+
+Step:  AIC=5257.89
+avg_salary_k ~ python + excel + sas + tableau + spark + sql + 
+    aws + mongo + pytorch + tensor + hadoop + keras + scikit + 
+    flink + google_an
+
+            Df Sum of Sq    RSS    AIC
+- spark      1       147 849581 5256.0
+- keras      1       154 849588 5256.0
+- flink      1       164 849597 5256.0
+- excel      1      1143 850577 5256.9
+- hadoop     1      1468 850902 5257.2
+- mongo      1      1857 851291 5257.5
+&lt;none&gt;                   849434 5257.9
+- scikit     1      4330 853764 5259.7
+- tableau    1      5471 854904 5260.7
+- tensor     1      6224 855657 5261.3
+- pytorch    1      7077 856511 5262.0
+- google_an  1     10646 860080 5265.1
+- aws        1     10750 860184 5265.2
+- sql        1     14071 863505 5268.1
+- sas        1     18316 867750 5271.7
+- python     1     69885 919319 5314.6
+
+Step:  AIC=5256.02
+avg_salary_k ~ python + excel + sas + tableau + sql + aws + mongo + 
+    pytorch + tensor + hadoop + keras + scikit + flink + google_an
+
+            Df Sum of Sq    RSS    AIC
+- keras      1       127 849708 5254.1
+- flink      1       133 849713 5254.1
+- excel      1      1101 850681 5255.0
+- hadoop     1      1346 850927 5255.2
+- mongo      1      1741 851321 5255.5
+&lt;none&gt;                   849581 5256.0
+- scikit     1      4195 853776 5257.7
+- tableau    1      5335 854916 5258.7
+- tensor     1      6111 855692 5259.3
+- pytorch    1      6936 856516 5260.0
+- google_an  1     10602 860182 5263.2
+- aws        1     10604 860184 5263.2
+- sql        1     14507 864087 5266.6
+- sas        1     18508 868089 5270.0
+- python     1     70982 920563 5313.6
+
+Step:  AIC=5254.13
+avg_salary_k ~ python + excel + sas + tableau + sql + aws + mongo + 
+    pytorch + tensor + hadoop + scikit + flink + google_an
+
+            Df Sum of Sq    RSS    AIC
+- flink      1       170 849878 5252.3
+- excel      1      1103 850811 5253.1
+- hadoop     1      1404 851112 5253.4
+- mongo      1      1690 851398 5253.6
+&lt;none&gt;                   849708 5254.1
+- scikit     1      4156 853863 5255.7
+- tableau    1      5425 855133 5256.9
+- tensor     1      6241 855949 5257.6
+- pytorch    1      6876 856584 5258.1
+- aws        1     10481 860189 5261.2
+- google_an  1     10726 860434 5261.4
+- sql        1     14388 864096 5264.6
+- sas        1     18787 868495 5268.4
+- python     1     70881 920589 5311.6
+
+Step:  AIC=5252.28
+avg_salary_k ~ python + excel + sas + tableau + sql + aws + mongo + 
+    pytorch + tensor + hadoop + scikit + google_an
+
+            Df Sum of Sq    RSS    AIC
+- excel      1      1110 850988 5251.2
+- hadoop     1      1544 851421 5251.6
+- mongo      1      1686 851564 5251.7
+&lt;none&gt;                   849878 5252.3
+- scikit     1      4135 854013 5253.9
+- tableau    1      5477 855355 5255.0
+- tensor     1      6754 856631 5256.1
+- pytorch    1      7331 857209 5256.6
+- google_an  1     10718 860596 5259.6
+- aws        1     10948 860826 5259.8
+- sql        1     14822 864699 5263.1
+- sas        1     18856 868734 5266.6
+- python     1     71124 921002 5309.9
+
+Step:  AIC=5251.24
+avg_salary_k ~ python + sas + tableau + sql + aws + mongo + pytorch + 
+    tensor + hadoop + scikit + google_an
+
+            Df Sum of Sq    RSS    AIC
+- mongo      1      1515 852503 5250.6
+- hadoop     1      1554 852542 5250.6
+&lt;none&gt;                   850988 5251.2
+- scikit     1      4060 855049 5252.8
+- tableau    1      5993 856981 5254.5
+- tensor     1      6998 857986 5255.3
+- pytorch    1      7292 858280 5255.6
+- aws        1     11034 862022 5258.8
+- google_an  1     11498 862486 5259.2
+- sql        1     15412 866400 5262.6
+- sas        1     18820 869808 5265.5
+- python     1     72221 923209 5309.7
+
+Step:  AIC=5250.56
+avg_salary_k ~ python + sas + tableau + sql + aws + pytorch + 
+    tensor + hadoop + scikit + google_an
+
+            Df Sum of Sq    RSS    AIC
+- hadoop     1      1980 854483 5250.3
+&lt;none&gt;                   852503 5250.6
+- scikit     1      4119 856621 5252.1
+- tableau    1      5556 858059 5253.4
+- tensor     1      7143 859646 5254.8
+- pytorch    1      7683 860185 5255.2
+- google_an  1     11455 863958 5258.5
+- aws        1     12616 865119 5259.5
+- sql        1     14645 867148 5261.2
+- sas        1     20120 872623 5265.9
+- python     1     71465 923968 5308.3
+
+Step:  AIC=5250.29
+avg_salary_k ~ python + sas + tableau + sql + aws + pytorch + 
+    tensor + scikit + google_an
+
+            Df Sum of Sq    RSS    AIC
+&lt;none&gt;                   854483 5250.3
+- scikit     1      5112 859595 5252.7
+- tableau    1      5621 860104 5253.2
+- tensor     1      6544 861027 5253.9
+- pytorch    1      8208 862691 5255.4
+- google_an  1     11679 866162 5258.4
+- sql        1     13033 867516 5259.5
+- aws        1     15824 870307 5261.9
+- sas        1     18930 873413 5264.5
+- python     1     74733 929216 5310.5
+
+========================================================================
+Backward Stepwise Linear Model (criterion: AIC, k = 2.000)
+Final Formula: avg_salary_k ~ python + sas + tableau + sql + aws + pytorch + 
+ Final Formula:     tensor + scikit + google_an
+------------------------------------------------------------------------
+
+Call:
+lm(formula = avg_salary_k ~ python + sas + tableau + sql + aws + 
+    pytorch + tensor + scikit + google_an, data = df, na.action = na_action)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-75.452 -23.502  -5.291  19.320 123.744 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   90.952      2.089  43.543  &lt; 2e-16 ***
+python        22.804      2.850   8.001 4.82e-15 ***
+sas           18.520      4.599   4.027 6.24e-05 ***
+tableau       -7.582      3.455  -2.194 0.028524 *  
+sql           -9.796      2.932  -3.341 0.000876 ***
+aws           11.327      3.076   3.682 0.000249 ***
+pytorch      -19.513      7.359  -2.652 0.008181 ** 
+tensor        14.230      6.010   2.368 0.018155 *  
+scikit        12.114      5.788   2.093 0.036717 *  
+google_an    -29.472      9.318  -3.163 0.001626 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 34.17 on 732 degrees of freedom
+  (11 observations deleted due to missingness)
+Multiple R-squared:  0.1792,    Adjusted R-squared:  0.1691 
+F-statistic: 17.76 on 9 and 732 DF,  p-value: &lt; 2.2e-16
+
+------------------------------------------------------------------------
+Selected predictors:
+ - python
+ - sas
+ - tableau
+ - sql
+ - aws
+ - pytorch
+ - tensor
+ - scikit
+ - google_an
+
+Dropped predictors:
+ - excel
+ - spark
+ - mongo
+ - hadoop
+ - keras
+ - flink
+ - r
+ - scala
+ - databricks
+ - gcp
+ - snowflake
+ - tensorflow
+ - xgboost
+ - azure
+
+------------------------------------------------------------------------
+Observations used: 742
+Residual df: 732
+Residual SE: 34.166
+Multiple R-squared: 0.17922
+Adjusted R-squared: 0.16912
+AIC: 7357.991</code></pre>
 </div>
 </div>
 </section>

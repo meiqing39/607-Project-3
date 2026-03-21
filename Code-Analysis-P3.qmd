@@ -316,13 +316,33 @@ final_wide <- all_jobs %>%
     values_fill = list(has_skill = 0L),
     values_fn = list(has_skill = max)
   )
+
+# Columns from the original all_jobs table (keep these)
+orig_cols <- names(all_jobs)
+
+# Skill columns are all columns in final_wide that were *not* in all_jobs
+skill_cols <- setdiff(names(final_wide), orig_cols)
+
+# Identify skill columns that are all zeros (no presence across any job)
+zero_only <- vapply(final_wide[skill_cols], function(x) {
+  # handle numeric/logical 0/1; coerce characters like "0"/"1" if needed
+  if (is.character(x)) x <- suppressWarnings(as.numeric(x))
+  sum(x, na.rm = TRUE) == 0
+}, logical(1))
+
+# Drop unnecessary columns
+final_wide_trim <- final_wide %>%
+  select(
+    -any_of(skill_cols[zero_only]),   # drop skills with only 0
+    -any_of("NA")                     # drop the NA column
+  )
 ```
 
 ### Building LM Function
 ```{r}
 run_univariate_lm <- function(df,
                               y = "avg_salary_k",
-                              x_cols = 12:35,
+                              x_cols = 12:34,
                               na_action = na.exclude,
                               assign_to_global = FALSE,
                               sanitize_names = FALSE,
@@ -415,14 +435,14 @@ run_univariate_lm <- function(df,
 
 ### Running LM Function
 ```{r}
-models <- run_univariate_lm(final_wide)
+models <- run_univariate_lm(final_wide_trim)
 ```
 
 ### Building Multi LM Function
 ```{r}
 run_multivar_lm <- function(df,
                             y = "avg_salary_k",
-                            x_cols = 12:35,
+                            x_cols = 12:34,
                             na_action = na.exclude,
                             sanitize_names = FALSE,
                             coerce_binary_chars = TRUE,
@@ -540,7 +560,160 @@ run_multivar_lm <- function(df,
 
 ### Running Multi LM Function
 ```{r}
-mmodel <- run_multivar_lm(final_wide)
+mmodel <- run_multivar_lm(final_wide_trim)
 ```
 
+### Building Backward Stepwise Regression Function
+```{r}
+run_stepwise_backward_lm <- function(df,
+                                     y = "avg_salary_k",
+                                     x_cols = 12:34,
+                                     na_action = na.exclude,
+                                     sanitize_names = FALSE,
+                                     coerce_binary_chars = TRUE,
+                                     standardize = FALSE,
+                                     criterion = c("AIC", "BIC"),
+                                     trace = TRUE) {
+  criterion <- match.arg(criterion)
+  
+  # --- Basic checks ---
+  if (!y %in% names(df)) {
+    stop(sprintf("Response column '%s' not found in data.", y))
+  }
+  if (any(x_cols < 1 | x_cols > ncol(df))) {
+    stop("x_cols index range is out of bounds for the provided data frame.")
+  }
+  
+  # --- Optionally sanitize column names ---
+  if (sanitize_names) {
+    names(df) <- make.unique(make.names(names(df)))
+    if (!y %in% names(df)) {
+      stop("After sanitizing names, the response column was renamed; update 'y' to the new name.")
+    }
+    message("Column names were sanitized via make.names() + make.unique().")
+  }
+  
+  # --- Ensure response is numeric ---
+  if (!is.numeric(df[[y]])) {
+    suppressWarnings({
+      df[[y]] <- as.numeric(df[[y]])
+    })
+    if (anyNA(df[[y]])) {
+      warning(sprintf("Coercing '%s' to numeric introduced NAs; check your response column.", y))
+    }
+  }
+  
+  # --- Collect candidate predictors ---
+  xnames <- names(df)[x_cols]
+  
+  # --- Filter: skip problematic types, coerce binary chars, skip constants ---
+  keep <- logical(length(xnames))
+  for (i in seq_along(xnames)) {
+    xn <- xnames[i]
+    xv <- df[[xn]]
+    
+    # Skip list/data-frame columns
+    if (is.list(xv) && !is.atomic(xv)) {
+      message(sprintf("Skipping '%s': predictor is a list/data-frame column.", xn))
+      keep[i] <- FALSE
+      next
+    }
+    
+    # Optional coercion: "0"/"1" -> numeric
+    if (coerce_binary_chars && is.character(xv)) {
+      vals <- unique(na.omit(xv))
+      if (length(vals) > 0 && all(vals %in% c("0", "1"))) {
+        df[[xn]] <- as.numeric(xv)
+        xv <- df[[xn]]
+      }
+    }
+    
+    # Skip non-variant predictors (all NA or <2 unique non-NA values)
+    if (all(is.na(xv)) || length(unique(na.omit(xv))) < 2) {
+      message(sprintf("Skipping '%s': predictor has <2 unique non-NA values.", xn))
+      keep[i] <- FALSE
+      next
+    }
+    
+    keep[i] <- TRUE
+  }
+  xnames <- xnames[keep]
+  
+  if (length(xnames) == 0) {
+    stop("No valid predictors found in the selected range after filtering.")
+  }
+  
+  # --- Optional standardization of numeric predictors ---
+  if (standardize) {
+    for (xn in xnames) {
+      if (is.numeric(df[[xn]])) {
+        df[[xn]] <- as.numeric(scale(df[[xn]]))
+      }
+    }
+    message("Numeric predictors standardized (mean=0, sd=1).")
+  }
+  
+  # --- Build safe formula with backticks ---
+  backtick <- function(nm) paste0("`", nm, "`")
+  rhs <- paste(vapply(xnames, backtick, ""), collapse = " + ")
+  f_full <- as.formula(paste(backtick(y), "~", rhs))
+  
+  # --- Fit full model ---
+  fit_full <- lm(f_full, data = df, na.action = na_action)
+  
+  # --- Choose penalty k (AIC vs BIC) ---
+  n <- nobs(fit_full)  # number of observations actually used
+  k <- if (criterion == "AIC") 2 else log(n)
+  
+  # --- Backward stepwise using stats::step ---
+  fit_step <- step(fit_full,
+                   direction = "backward",
+                   trace = as.integer(trace),
+                   k = k)
+  
+  # --- Print concise diagnostics for the final selected model ---
+  cat("\n", strrep("=", 72), "\n", sep = "")
+  cat(sprintf("Backward Stepwise Linear Model (criterion: %s, k = %.3f)\n", criterion, k))
+  cat(sprintf("Final Formula: %s\n", deparse(formula(fit_step))))
+  cat(strrep("-", 72), "\n", sep = "")
+  
+  s <- summary(fit_step)
+  print(s)
+  
+  # Which predictors were selected?
+  selected <- attr(terms(fit_step), "term.labels")
+  dropped  <- setdiff(xnames, selected)
+  
+  cat(strrep("-", 72), "\n", sep = "")
+  cat("Selected predictors:\n")
+  if (length(selected) > 0) {
+    cat(paste0(" - ", selected), sep = "\n")
+  } else {
+    cat(" (none; intercept-only model)\n")
+  }
+  
+  cat("\nDropped predictors:\n")
+  if (length(dropped) > 0) {
+    cat(paste0(" - ", dropped), sep = "\n")
+  } else {
+    cat(" (none dropped)\n")
+  }
+  
+  # Extra metrics
+  cat("\n", strrep("-", 72), "\n", sep = "")
+  cat(sprintf("Observations used: %d\n", s$df[1] + s$df[2]))
+  cat(sprintf("Residual df: %d\n", s$df[2]))
+  cat(sprintf("Residual SE: %.3f\n", s$sigma))
+  cat(sprintf("Multiple R-squared: %.5f\n", s$r.squared))
+  cat(sprintf("Adjusted R-squared: %.5f\n", s$adj.r.squared))
+  cat(sprintf("%s: %.3f\n", criterion, AIC(fit_step) + (k - 2) * length(coef(fit_step))))
+  # Note: AIC() returns AIC with k = 2. For BIC, we report adjusted by (k-2)*p.
+  
+  invisible(fit_step)
+}
+```
 
+### Running Backward Stepwise Regression Function
+```{r}
+stepmodel <- run_stepwise_backward_lm(final_wide_trim)
+```
