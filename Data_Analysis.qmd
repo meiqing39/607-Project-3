@@ -617,7 +617,7 @@ kg_skills_agg |> filter(job_title_sim == "data engineer") |>
     skill = "Skill",
     skill_count = "Count"
   ) |>
-  tab_header(title = "Most Common Data Scientist Skills")
+  tab_header(title = "Most Common Data Engineer Skills")
 
 #analyst skills bar chart
 kg_skills_agg |> 
